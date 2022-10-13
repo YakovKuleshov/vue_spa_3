@@ -1,30 +1,251 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+  <div id="main">
+    <keep-alive>
+      <main-header v-if="validPath" @showDetail="showDetailWeather = true" />
+    </keep-alive>
+    <div class="wallpaper" :style="{ background: `url(${mainBgUrl}) no-repeat center` }" />
+    <section>
+      <h1 class="title" :style="{ color: mainSettings.title_color }">
+        {{ mainSettings.title }}
+      </h1>
+      <div class="import__components">
+        <div class="content">
+          <router-view @onImageClick="imageClick" @onFilmClick="filmClick" v-slot="{ Component }">
+            <keep-alive>
+              <component :is="Component" />
+            </keep-alive>
+          </router-view>
+        </div>
+      </div>
+    </section>
+    <keep-alive>
+      <weather-popup v-if="showDetailWeather" @close="showDetailWeather = false" />
+    </keep-alive>
+    <template v-if="filmData">
+      <popup-info :filmData="filmData" @clearData="clearData"></popup-info>
+    </template>
+    <template v-if="galleryImgUrl">
+      <image-popup :url="galleryImgUrl" @clearImgUrl="clearImgUrl" />
+    </template>
+    <div v-if="!this.$isMobile && isDev" class="button color__button" @click="colorpickerToggle">Цвет</div>
+    <div class="color__picker" :class="{ color__picker__active: colorpicker }" @click="stopProp">
+      <Colorpicker @onRgbaColor="setRgba" @onInputColor="setHexColor" />
+    </div>
+    <div class="clock">
+      <Clock />
+    </div>
+    <resize-block class="resize__overlay" v-if="!this.$isMobile && isDev" :bgColor="blockColor" />
+    <div class="up__down_buttons">
+      <div id="up" class="scroll__buttons up__button" ref="upButton" @click="scrollPage"></div>
+      <div id="down" class="scroll__buttons down__button" ref="downButton" @click="scrollPage"></div>
+    </div>
+    <div v-if="!mainBg.includes('wallpaper')" class="bg__button" :style="{ top: `${bgButtonTop}px` }">
+      <div class="pulse__elem_1"></div>
+      <div class="pulse__elem_2"></div>
+      <div class="pulse__elem_3"></div>
+      <div class="button gallary__button" @click="changeMainBg('img/wallpaper_5.jpg')">Вернуть фон</div>
+    </div>
+  </div>
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+import Range from './elements/range/Range'
+import Colorpicker from './elements/colorpicker/Colorpicker'
+import resizeBlock from './elements/resize-block/Resize-block'
+import popupInfo from './popup-info'
+import WeatherPopup from './WeatherPopup'
+import Clock from './elements/clock/Clock'
+import ImagePopup from './ImagePopup'
+import MainHeader from './elements/main-header/MainHeader'
+import { mapState, mapMutations, mapGetters } from 'vuex'
+import './style/style.css'
 
-nav {
-  padding: 30px;
-}
+export default {
+  components: {
+    MainHeader,
+    popupInfo,
+    WeatherPopup,
+    Range,
+    Colorpicker,
+    resizeBlock,
+    ImagePopup,
+    Clock
+  },
+  data() {
+    return {
+      showDetailWeather: false,
+      showRegistration: false,
+      galleryImgUrl: '',
+      colorpicker: false,
+      blockColor: '',
+      hexColor: '',
+      rangeValue: '',
+      filmData: '',
+      bgButtonTop: window.innerHeight - 300
+    }
+  },
+  watch: {
+    $route({ meta }) {
+      document.title = meta.title
+    }
+  },
+  methods: {
+    ...mapMutations('mainStore', ['changeMainBg']),
 
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
+    stopProp(e) {
+      e.stopPropagation()
+    },
 
-nav a.router-link-exact-active {
-  color: #42b983;
+    colorpickerToggle(e) {
+      this.colorpicker = !this.colorpicker
+      e.stopPropagation()
+    },
+
+    getRangeValue(value) {
+      this.rangeValue = value
+    },
+
+    filmClick(film_data) {
+      this.filmData = film_data
+    },
+
+    imageClick(url) {
+      this.galleryImgUrl = url
+    },
+
+    clearData() {
+      this.filmData = ''
+    },
+
+    clearImgUrl() {
+      this.galleryImgUrl = ''
+    },
+
+    scrollPage(e) {
+      if (e.target.id === 'up') {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        })
+      } else {
+        window.scrollTo({
+          top: document.body.scrollHeight,
+          behavior: 'smooth'
+        })
+      }
+    },
+
+    setRgba(value) {
+      this.blockColor = value
+    },
+
+    setHexColor(value) {
+      // this.hexColor = value[0] == '#' ? value : '#' + value
+    }
+  },
+  computed: {
+    ...mapState('mainStore', ['mainBg', 'mainSettings', 'menuList']),
+    ...mapGetters('mainStore', ['isDev']),
+    validPath() {
+      return !['/info', '/admin_panel'].some((path) => path === this.$route.path)
+    },
+    mainBgUrl() {
+      const httpUrl = this.mainBg.includes('https')
+      return httpUrl ? this.mainBg : require(`@/assets/${this.mainBg}`)
+    }
+  },
+
+  beforeCreate() {},
+
+  created() {},
+
+  beforeMount() {},
+
+  mounted() {
+    if (window.scrollY < 500) {
+      this.$refs.upButton.style.opacity = '0'
+      this.$refs.upButton.style.display = 'none'
+    }
+
+    if (window.scrollY > document.body.scrollHeight - window.innerHeight - 500) {
+      this.$refs.downButton.style.opacity = '0'
+      this.$refs.downButton.style.display = 'none'
+    }
+
+    let flagUp = true
+    let flagDown = true
+
+    window.addEventListener('scroll', (e) => {
+      // let options = {
+      //   // root: this.$refs.menu,
+      //   rootMargin: "0px",
+      //   threshold: 1
+      // };
+
+      // let callback = (entries, observer) => {
+      //   if (!entries[0].isIntersecting && this.$route.path != "/shop") {
+      //     entries[0].target.classList.add("sticked");
+      //   } else {
+      //     if (entries[0].boundingClientRect.top != 0)
+      //       entries[0].target.classList.remove("sticked");
+      //   }
+      // };
+
+      // let observer = new IntersectionObserver(callback, options);
+      // if (this.$refs.menu) observer.observe(this.$refs.menu);
+      //PARALAX
+      // let elems = this.$el.querySelectorAll(".block");
+      // elems.forEach((el) => {
+      //    if (window.scrollY - el.offsetTop >= -100) {
+      //       el.style.transform =  `translateY(${(window.scrollY - el.offsetTop + 100) / 1.5}px)`;
+      //    } else {
+      //       el.style.transform = "translateY(0)";
+      //    }
+      // });
+
+      this.bgButtonTop = window.innerHeight - 300 + window.scrollY
+
+      if (!flagUp) return false
+      flagUp = false
+
+      if (window.scrollY > 500) {
+        this.$refs.upButton.style.display = 'block'
+        setTimeout(() => {
+          this.$refs.upButton.style.opacity = '1'
+          flagUp = true
+        }, 1)
+      } else {
+        this.$refs.upButton.style.opacity = '0'
+        setTimeout(() => {
+          this.$refs.upButton.style.display = 'none'
+          flagUp = true
+        }, 300)
+      }
+
+      if (!flagDown) return false
+      flagDown = false
+
+      if (window.scrollY < document.body.scrollHeight - window.innerHeight - 500) {
+        this.$refs.downButton.style.display = 'block'
+        setTimeout(() => {
+          this.$refs.downButton.style.opacity = '1'
+          flagDown = true
+        })
+      } else {
+        this.$refs.downButton.style.opacity = '0'
+        setTimeout(() => {
+          this.$refs.downButton.style.display = 'none'
+          flagDown = true
+        }, 300)
+      }
+    })
+
+    window.addEventListener('click', () => {
+      this.colorpicker = false
+    })
+
+    // let number = 20500200
+    // console.log(new Intl.NumberFormat().format(number))
+  }
 }
-</style>
+</script>
