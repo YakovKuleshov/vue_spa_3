@@ -1,6 +1,6 @@
 <template>
   <div class="card" :class="view">
-    <div class="image" :style="{ backgroundImage: `url(${getImage(item)})` }"></div>
+    <img class="image" :src="getImage(item)" />
     <div class="text__container">
       <div class="card__title">{{ item.name }}</div>
       <div class="wrapper__row">
@@ -27,10 +27,8 @@
 }
 
 .image {
-  min-height: 50%;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
+  max-width: 275px;
+  height: 50%;
 }
 
 .text__container {
@@ -88,9 +86,8 @@
 }
 
 .list .image {
-  flex-grow: 1;
   max-width: 400px;
-  min-width: 300px;
+  height: 100%;
 }
 
 .list .text__container {

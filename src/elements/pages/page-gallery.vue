@@ -2,18 +2,12 @@
   <div class="main">
     <h2 class="page__title">Галерея</h2>
     <div class="content" ref="galleryContainer">
-      <div class="wrapper__row">
-        <!-- <input type="text" placeholder="Поиск" @input="searchWallpapers" /> -->
-        <!-- <div class="total__count">
-          Всего:&nbsp;&nbsp;{{ count.toLocaleString() }}
-        </div> -->
-      </div>
+      <!-- <div class="wrapper__row">
+        <input type="text" placeholder="Поиск" @input="searchWallpapers" />
+        <div class="total__count">Всего:&nbsp;&nbsp;{{ count.toLocaleString() }}</div>
+      </div> -->
       <div class="container" ref="container">
-        <div
-          v-for="(item, index) in gallery"
-          class="card__container"
-          :key="index"
-        >
+        <div v-for="(item, index) in gallery" class="card__container" :key="index">
           <div
             class="image__item"
             :style="{
@@ -32,7 +26,7 @@
 </template>
 
 <style scoped>
-.wrapper__row {
+/* .wrapper__row {
   display: flex;
   align-items: center;
   margin-bottom: 20px;
@@ -56,9 +50,9 @@ input {
 input::placeholder {
   color: #ccc;
   font-size: 17px;
-}
+} */
 
-.total__count {
+/* .total__count {
   font-size: 20px;
   background: #fff;
   height: 45px;
@@ -67,7 +61,7 @@ input::placeholder {
   border-radius: 5px;
   padding: 0 10px;
   margin-right: 10px;
-}
+} */
 
 .page__title {
   margin-bottom: 40px;
@@ -205,8 +199,7 @@ export default {
           this.gallery = res.results
 
           setTimeout(() => {
-            const elemDist =
-              this.$refs.galleryContainer.getBoundingClientRect().bottom
+            const elemDist = this.$refs.galleryContainer.getBoundingClientRect().bottom
 
             if (elemDist < window.innerHeight) {
               this.page++
@@ -225,10 +218,7 @@ export default {
     gallertScroll() {
       if (!this.flag) return false
       if (this.gallery.length < this.count) {
-        if (
-          window.scrollY + 200 >
-          document.body.scrollHeight - window.innerHeight
-        ) {
+        if (window.scrollY + 200 > document.body.scrollHeight - window.innerHeight) {
           this.page++
 
           this.loadGallery(this.page, this.search)

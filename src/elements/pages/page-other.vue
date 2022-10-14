@@ -135,7 +135,7 @@ export default {
   data() {
     return {
       scrollFlag: true,
-      counter: 0,
+      counter: -1,
       pathList: [
         'pages/other-elements/Gallery3d',
         'pages/other-elements/AnimatedShapes',
@@ -205,10 +205,9 @@ export default {
 
       const section = document.createElement('div')
       section.className = 'section'
-      // section.style.paddingBottom = '100px'
       app.mount(section)
       container.append(section)
-      // console.log(section.dataset)
+
       this.scrollFlag = true
     },
     updateSection() {
@@ -278,6 +277,7 @@ export default {
         this.counter++
         if (this.counter < this.pathList.length) {
           this.renderContent(this.pathList[this.counter])
+          this.scrollPage()
         }
       }
     }
@@ -299,7 +299,7 @@ export default {
 
     this.fixList(this.folders, folders)
     this.selectedItem = { id: null }
-    this.renderContent(this.pathList[this.counter])
+    this.scrollPage()
 
     // https://webdevblog.ru/15-obyazatelnyh-direktiv-vue-kotorye-znachitelno-uvelichat-vashu-proizvoditelnost/
     // let number = 3000500
