@@ -8,19 +8,19 @@
 </template>
 
 <script>
-import ChartView from "@/elements/weather-now/ChartView";
+import ChartView from '@/elements/weather-now/ChartView'
 
 export default {
   components: {
     ChartView
   },
   activated() {
-    document.body.style.overflow = "hidden";
+    document.body.style.overflow = 'hidden'
   },
   deactivated() {
-    document.body.removeAttribute("style");
+    document.body.removeAttribute('style')
   }
-};
+}
 </script>
 
 <style scoped>
@@ -67,7 +67,7 @@ export default {
 }
 
 .weather-popup__close:before {
-  content: "";
+  content: '';
   width: 100%;
   height: 2px;
   position: absolute;
@@ -78,7 +78,7 @@ export default {
 }
 
 .weather-popup__close:after {
-  content: "";
+  content: '';
   width: 100%;
   height: 2px;
   position: absolute;

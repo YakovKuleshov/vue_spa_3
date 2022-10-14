@@ -1,12 +1,7 @@
 <template>
   <div>
     <div class="overlay" @click="clearImgUrl" @mousemove="resetCoords">
-      <div
-        class="content"
-        :style="{ transform: `rotateX(${x}deg) rotateY(${y}deg)` }"
-        @mousemove="rotateContent"
-        ref="content"
-      >
+      <div class="content" :style="{ transform: `rotateX(${x}deg) rotateY(${y}deg)` }" @mousemove="rotateContent" ref="content">
         <div
           class="image"
           :style="{
@@ -99,7 +94,7 @@ export default {
     document.body.style.overflow = 'hidden'
   },
   beforeUnmount() {
-    document.body.style.overflow = 'visible'
+    document.body.removeAttribute('style')
   }
 }
 </script>
