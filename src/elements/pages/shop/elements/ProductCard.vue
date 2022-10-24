@@ -20,15 +20,15 @@
   background: #fff;
   box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.3);
   border-radius: 5px;
-  overflow: hidden;
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
 }
 
 .image {
-  max-width: 275px;
   height: 50%;
+  width: 100%;
+  object-fit: cover;
 }
 
 .text__container {
@@ -52,6 +52,7 @@
   margin-top: auto;
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
 
 .card__button {
@@ -68,10 +69,6 @@
 
 .in__cart {
   background: green;
-}
-
-.card__price {
-  margin-left: auto;
 }
 
 .list {

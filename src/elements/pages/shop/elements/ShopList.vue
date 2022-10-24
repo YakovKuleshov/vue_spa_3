@@ -55,6 +55,14 @@
   position: absolute;
   opacity: 0;
 }
+
+.list-enter.list-item {
+  max-width: 400px;
+}
+
+.list-leave-active.list-item {
+  max-width: 400px;
+}
 </style>
 
 <script>

@@ -1,7 +1,7 @@
 <template>
   <div id="main">
     <keep-alive>
-      <main-header v-if="validPath" @showDetail="showDetailWeather = true" />
+      <main-header v-if="validPath" @showDetail="showDetailWeather = true" @showNavModal="showNav = true" />
     </keep-alive>
     <div class="wallpaper" :style="{ background: `url(${mainBgUrl}) no-repeat center` }" />
     <section>
@@ -27,14 +27,17 @@
     <template v-if="galleryImgUrl">
       <image-popup :url="galleryImgUrl" @clearImgUrl="clearImgUrl" />
     </template>
-    <div v-if="!this.$isMobile && isDev" class="button color__button" @click="colorpickerToggle">Цвет</div>
+    <transition name="fade">
+      <mobile-popup v-if="showNav" @close="showNav = false" />
+    </transition>
+    <div v-if="!$isMobile && isDev" class="button color__button" @click="colorpickerToggle">Цвет</div>
     <div class="color__picker" :class="{ color__picker__active: colorpicker }" @click="stopProp">
       <Colorpicker @onRgbaColor="setRgba" @onInputColor="setHexColor" />
     </div>
     <div class="clock">
       <Clock />
     </div>
-    <resize-block class="resize__overlay" v-if="!this.$isMobile && isDev" :bgColor="blockColor" />
+    <resize-block class="resize__overlay" v-if="!$isMobile && isDev" :bgColor="blockColor" />
     <div class="up__down_buttons">
       <div id="up" class="scroll__buttons up__button" ref="upButton" @click="scrollPage"></div>
       <div id="down" class="scroll__buttons down__button" ref="downButton" @click="scrollPage"></div>
@@ -53,6 +56,7 @@ import Range from './elements/range/Range'
 import Colorpicker from './elements/colorpicker/Colorpicker'
 import resizeBlock from './elements/resize-block/Resize-block'
 import popupInfo from './popup-info'
+import MobilePopup from './MobilePopup.vue'
 import WeatherPopup from './WeatherPopup'
 import Clock from './elements/clock/Clock'
 import ImagePopup from './ImagePopup'
@@ -65,6 +69,7 @@ export default {
     MainHeader,
     popupInfo,
     WeatherPopup,
+    MobilePopup,
     Range,
     Colorpicker,
     resizeBlock,
@@ -73,6 +78,7 @@ export default {
   },
   data() {
     return {
+      showNav: false,
       showDetailWeather: false,
       showRegistration: false,
       galleryImgUrl: '',

@@ -2,15 +2,11 @@
   <div class="main">
     <h2 class="page__title">Новости</h2>
     <div class="news__slider">
-      <NewsSlider
-        v-if="newsList.length"
-        class="infinte__news"
-        :list="newsList"
-      />
+      <NewsSlider v-if="list.length" class="infinte__news" :list="list" />
     </div>
     <div class="content__wrapper">
       <div class="container" ref="container">
-        <template v-for="(item, index) in newsList" :key="index">
+        <template v-for="(item, index) in list" :key="index">
           <div class="news__item">
             <a :href="item.url" rel="noopener" target="_blank">
               <div
@@ -30,7 +26,7 @@
           </div>
         </template>
       </div>
-      <div v-if="!newsList.length" class="preloader"></div>
+      <div v-if="!list.length" class="preloader"></div>
     </div>
   </div>
 </template>
@@ -131,16 +127,29 @@ a {
 import { mapGetters, mapActions } from 'vuex'
 import NewsSlider from '../news-slider/newsSlider'
 import saveScroll from '@/mixins/saveScroll'
+import { mapState } from 'vuex'
 
 export default {
   components: {
     NewsSlider
   },
   mixins: [saveScroll],
-  computed: mapGetters('mainStore', ['newsList']),
-  methods: mapActions('mainStore', ['getNews']),
+  computed: {
+    ...mapGetters('mainStore', ['newsList']),
+    ...mapState('mainStore', ['localList']),
+    randomLocalList() {
+      let offset = Math.round(Math.random() * (this.localList.length - 20))
+      return this.localList.slice(offset, offset + 20)
+    },
+    list() {
+      return this.$isMobile ? this.randomLocalList : this.newsList
+    }
+  },
+  methods: {
+    ...mapActions('mainStore', ['getNews'])
+  },
   created() {
-    this.getNews()
+    if (!this.$isMobile) this.getNews()
   },
   beforeRouteLeave(to, { name }, next) {
     localStorage.setItem(`${name}_scroll`, window.scrollY)

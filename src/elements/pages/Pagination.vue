@@ -2,32 +2,17 @@
   <div>
     <h2 class="page__title">Информация</h2>
     <div class="pagination">
-      <h2 v-show="getPageNumber" class="list__title">
-        Страница {{ getPageNumber }}
-      </h2>
-      <div
-        v-for="(item, index) in list"
-        class="list__item__container"
-        :key="index"
-        @click="toInfoPage(item)"
-      >
+      <h2 v-show="getPageNumber" class="list__title">Страница {{ getPageNumber }}</h2>
+      <div v-for="(item, index) in list" class="list__item__container" :key="index" @click="toInfoPage(item)">
         <div class="list__item">
-          <img
-            class="list__item__img"
-            :src="item.urlToImage"
-            @error="loadError(item)"
-          />
+          <img class="list__item__img" :src="item.urlToImage" @error="loadError(item)" />
           <div class="list__item__text">{{ formatText(item.description) }}</div>
         </div>
       </div>
       <div v-if="!list.length" class="preloader"></div>
     </div>
     <div v-if="buttonsLenght" class="list__buttons">
-      <div
-        class="list__button prev__btn"
-        :class="{ disabled: getDisabledPrevBtn }"
-        @click="toPrevPage"
-      ></div>
+      <div class="list__button prev__btn" :class="{ disabled: getDisabledPrevBtn }" @click="toPrevPage"></div>
       <template v-for="(item, index) in buttonsLenght">
         <div
           v-if="getPageButtons(index)"
@@ -46,11 +31,7 @@
       >
         {{ buttonsLenght }}
       </div>
-      <div
-        class="list__button next__btn"
-        :class="{ disabled: getDisabledNextBtn }"
-        @click="toNextPage"
-      ></div>
+      <div class="list__button next__btn" :class="{ disabled: getDisabledNextBtn }" @click="toNextPage"></div>
     </div>
   </div>
 </template>
@@ -207,6 +188,20 @@
   padding: 0 8px;
 }
 
+@media (max-width: 576px) {
+  .pagination {
+    padding: 20px 10px;
+  }
+
+  .list__item {
+    flex-direction: column;
+  }
+
+  .list__item__img {
+    margin-bottom: 20px;
+  }
+}
+
 .disabled {
   pointer-events: none;
   opacity: 0.5;
@@ -214,7 +209,7 @@
 </style>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import saveScroll from '@/mixins/saveScroll'
 
 export default {
@@ -251,7 +246,8 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('mainStore', ['subList']),
+    // ...mapGetters('mainStore', ['subList']),
+    ...mapState('mainStore', ['localList']),
     getDisabledNextBtn() {
       return +this.$route.query.page == this.buttonsLenght
     },
@@ -259,8 +255,7 @@ export default {
       return +this.$route.query.page == 1
     },
     getPageNumber() {
-      let val =
-        this.$route.query.page && this.$route.query.page.replace(/[^\d]/g, '')
+      let val = this.$route.query.page && this.$route.query.page.replace(/[^\d]/g, '')
       return +val > this.buttonsLenght ? '' : val
     }
   },
@@ -313,10 +308,7 @@ export default {
         )
       }
 
-      if (
-        +this.$route.query.page - 1 >= 1 &&
-        +this.$route.query.page - 1 <= this.buttonsLenght - 3
-      ) {
+      if (+this.$route.query.page - 1 >= 1 && +this.$route.query.page - 1 <= this.buttonsLenght - 3) {
         return (
           index == +this.$route.query.page - 1 - 1 ||
           index == +this.$route.query.page - 1 - 2 ||
@@ -349,18 +341,18 @@ export default {
       }
     },
     getLimitedList(current) {
-      this.list = this.subList.slice(
-        current * this.limit,
-        current * this.limit + this.limit
-      )
+      // this.list = this.subList.slice(current * this.limit, current * this.limit + this.limit)
+      this.list = this.localList.slice(current * this.limit, current * this.limit + this.limit)
     }
   },
   async activated() {
-    if (!this.subList.length) {
-      await this.getNews({ category: 'everything', page: 1, limit: 100 })
-    }
+    // if (!this.subList.length) {
+    // if (!this.localList.length) {
+    //   await this.getNews({ category: 'everything', page: 1, limit: 100 })
+    // }
 
-    this.buttonsLenght = Math.ceil(this.subList.length / this.limit)
+    // this.buttonsLenght = Math.ceil(this.subList.length / this.limit)
+    this.buttonsLenght = Math.ceil(this.localList.length / this.limit)
     const buttonsArr = []
 
     for (let i = 1; i < this.buttonsLenght; i++) {
@@ -369,11 +361,7 @@ export default {
 
     let rex = /page=\d{1,2}/g.test(this.$route.fullPath)
 
-    if (
-      !rex ||
-      (this.$route.query.page != 1 &&
-        !buttonsArr.includes(+this.$route.query.page - 1))
-    ) {
+    if (!rex || (this.$route.query.page != 1 && !buttonsArr.includes(+this.$route.query.page - 1))) {
       this.$router.replace(`/information?page=${this.currentPage || 1}`)
     }
 

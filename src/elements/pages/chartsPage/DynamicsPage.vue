@@ -2,7 +2,7 @@
   <div class="statistics-page">
     <h2 class="page__title">Динамика</h2>
     <div class="statistics">
-      <div class="row__section">
+      <div class="statistics-filters">
         <chart-labels :chart-data="chartData.datasets" @hideChart="hideChart" />
         <select class="select" v-model="selectedPeriod">
           <option v-for="item in periodsList" :value="item" :key="item.id">
@@ -42,6 +42,45 @@
   box-shadow: 10px 21px 43px rgba(0, 0, 0, 0.3);
 }
 
+.statistics-filters {
+  display: grid;
+  grid-template-columns: auto repeat(2, 210px) 1fr;
+  grid-gap: 20px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 1090px) {
+  .statistics-filters {
+    grid-template-columns: repeat(2, 210px) 1fr;
+  }
+
+  .chart__labels {
+    grid-column: span 3;
+  }
+}
+
+@media (max-width: 630px) {
+  .chart__labels {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 10px;
+  }
+
+  .chart__labels:deep(.chart__labels__item) {
+    margin: 0 !important;
+  }
+}
+
+@media (max-width: 530px) {
+  .statistics-filters {
+    grid-template-columns: 1fr;
+  }
+
+  .chart__labels {
+    grid-column: span 1;
+  }
+}
+
 .page__title {
   margin-bottom: 40px;
   font-size: 40px;
@@ -52,30 +91,35 @@
   box-sizing: border-box;
   border-radius: 5px;
   outline: none;
-  width: 210px;
   border: 1px solid #ccc;
   margin-left: 10px;
   font-size: 15px;
   background: #f8f8f8;
   padding: 0 5px;
   cursor: pointer;
-  margin-left: 20px;
+  margin: 0;
 }
 
 .row__section {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   padding: 20px 0;
-  height: 40px;
 }
 
 .statistics__title {
   margin: 0;
   letter-spacing: 0.02em;
+  margin-right: 20px;
+}
+
+@media (max-width: 494px) {
+  .statistics__title {
+    margin-bottom: 5px;
+  }
 }
 
 .period {
-  margin-left: 20px;
   font-size: 15px;
   color: grey;
 }

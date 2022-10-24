@@ -1,6 +1,7 @@
 <template>
   <div class="overlay" @click="clearData">
-    <div class="content" @click="stopProp">
+    <div class="content" @click.stop>
+      <div class="content__close" @click="clearData"></div>
       <div class="vide_img_container">
         <template v-if="!trailer">
           <div class="image" :style="{ background: 'url(' + filmData.url + ') no-repeat center', backgroundSize: 'cover' }"></div>
@@ -10,6 +11,7 @@
             <video autoplay controls controlslist="nodownload" :src="filmData.trailer"></video>
           </div>
         </template>
+        <div class="btn" @click="switchTrailer">Треллер</div>
       </div>
       <div class="text__container">
         <div class="actors">
@@ -26,7 +28,9 @@
           В ролях:
           <span v-for="(item, index) in actorsList" :key="index">{{ item.element.name }}{{ getComma(actorsList, index) }}</span>
         </div>
-        <div class="description">{{ filmData.description }}</div>
+        <div class="description">
+          <p>{{ filmData.description }}</p>
+        </div>
       </div>
       <div class="rating__wrapper">
         <div class="rating">
@@ -34,7 +38,6 @@
         </div>
         <div class="rating__value">{{ getRate }}<span class="rate__from">Кино Поиск</span></div>
       </div>
-      <div class="btn" @click="switchTrailer">Треллер</div>
     </div>
   </div>
 </template>
@@ -63,16 +66,49 @@
   height: 100%;
   max-width: 1000px;
   max-height: 700px;
-  padding: 15px;
+  padding: 50px 15px 15px;
   box-sizing: border-box;
   background: #fff;
   box-shadow: 30px 30px 70px rgb(0, 0, 0, 0.6);
   border-radius: 10px;
 }
 
+.content__close {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  /* border: 1px solid #000; */
+  top: 15px;
+  right: 15px;
+  cursor: pointer;
+}
+
+.content__close:after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  height: 2px;
+  background: #333;
+  border-radius: 5px;
+  transform: translateY(-50%) rotate(-45deg);
+}
+
+.content__close:before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  height: 2px;
+  background: #333;
+  border-radius: 5px;
+  transform: translateY(-50%) rotate(45deg);
+}
+
 .vide_img_container {
   position: relative;
   flex-grow: 1;
+  min-height: 180px;
 }
 
 .video {
@@ -97,6 +133,7 @@ video {
 .text__container {
   padding-top: 20px;
   padding-bottom: 20px;
+  overflow-y: auto;
 }
 
 .actors {
@@ -112,12 +149,14 @@ video {
 
 .description {
   line-height: 20px;
+  overflow-y: auto;
 }
 
 .rating__wrapper {
   display: flex;
   align-items: center;
   justify-content: center;
+  padding-top: 10px;
 }
 
 .rating {
@@ -185,10 +224,17 @@ video {
   letter-spacing: 1px;
 }
 
+@media (max-width: 576px) {
+  .rate__from {
+    font-size: 20px;
+    letter-spacing: normal;
+  }
+}
+
 .btn {
   position: absolute;
-  top: 20px;
-  right: 20px;
+  top: 5px;
+  right: 5px;
   cursor: pointer;
   letter-spacing: 1px;
   width: 180px;
@@ -234,9 +280,6 @@ export default {
   methods: {
     clearData() {
       this.$emit('clearData')
-    },
-    stopProp(e) {
-      e.stopPropagation()
     },
     switchTrailer() {
       this.trailer = !this.trailer

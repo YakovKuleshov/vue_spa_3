@@ -18,6 +18,12 @@
   margin-right: 20px;
 }
 
+@media (max-width: 1330px) {
+  .main {
+    margin-right: 5px;
+  }
+}
+
 .wrapper__row {
   margin-left: 8px;
   margin-right: 10px;
@@ -99,9 +105,7 @@ export default {
     },
 
     getDescription() {
-      let elems = this.weatherConditions.filter(
-        (el) => el.type == this.weather.weather[0].main
-      )
+      let elems = this.weatherConditions.filter((el) => el.type == this.weather.weather[0].main)
       return elems && elems.length ? elems[0].name : ''
     },
     imgUrl() {
@@ -109,9 +113,7 @@ export default {
     }
   },
   mounted() {
-    fetch(
-      'http://api.openweathermap.org/data/2.5/weather?lat=55.7522&lon=37.6156&APPID=12594a2144aa9c83dfdc5b5b4f7c3b93'
-    )
+    fetch('http://api.openweathermap.org/data/2.5/weather?lat=55.7522&lon=37.6156&APPID=12594a2144aa9c83dfdc5b5b4f7c3b93')
       .then((response) => response.json())
       .then((res) => {
         this.weather = res

@@ -145,6 +145,22 @@ input::placeholder {
   grid-column: span 2;
 }
 
+@media (max-width: 576px) {
+  .container {
+    grid-template-columns: 1fr;
+  }
+
+  .card__container:nth-child(10n + 1) {
+    grid-row: span 1;
+    grid-column: span 1;
+  }
+
+  .card__container:nth-child(10n + 8) {
+    grid-row: span 1;
+    grid-column: span 1;
+  }
+}
+
 .image__item {
   height: 100%;
   cursor: pointer;

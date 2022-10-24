@@ -6,57 +6,30 @@
       </div>
       <weather-now @click="$emit('showDetail')" />
     </div>
-    <div class="menu" ref="menu">
-      <div v-if="lineWidth" class="shadow__line" :style="{ width: lineWidth + 'px', left: lineLeft + 'px' }" />
-      <template v-for="item in menuList" :key="item.id">
-        <div class="menu__item" ref="menuItem">
-          <router-link :exact="item.exact" :to="item.id">
-            {{ item.name }}
-          </router-link>
-        </div>
-      </template>
-    </div>
-    <div v-if="isDev" class="ultra">
+    <Navigation />
+    <gamburger-menu @click="$emit('showNavModal')" />
+
+    <!-- <div v-if="!$isMobile || isDev" class="ultra">
       <div class="ultra__logo"></div>
       <audio controls src="https://nashe1.hostingradio.ru:18000/ultra-128.mp3" ref="audio" />
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script>
 import WeatherNow from '@/elements/weather-now/weather-now'
-import { mapState, mapGetters } from 'vuex'
+import Navigation from '@/elements/main-navigation/Navigation.vue'
+import GamburgerMenu from '@/elements/gamburger-menu/GamburgerMenu.vue'
 
 export default {
   components: {
-    WeatherNow
-  },
-  data() {
-    return {
-      lineWidth: 0,
-      lineLeft: 0
-    }
-  },
-  watch: {
-    $route(route) {
-      const items = this.$refs.menuItem
-      const activeItem = items.find((el) => el.children[0].getAttribute('href') === route.path)
-
-      setTimeout(() => {
-        if (activeItem) {
-          this.lineWidth = activeItem.offsetWidth
-          this.lineLeft = activeItem.offsetLeft
-        }
-      })
-    }
-  },
-  computed: {
-    ...mapState('mainStore', ['menuList']),
-    ...mapGetters('mainStore', ['isDev'])
+    WeatherNow,
+    Navigation,
+    GamburgerMenu
   },
   mounted() {
-    const audio = this.$refs.audio
-    if (audio) audio.volume = 0.1
+    // const audio = this.$refs.audio
+    // if (audio) audio.volume = 0.1
   }
 }
 </script>
@@ -74,6 +47,7 @@ export default {
   z-index: 2;
   box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.6);
   height: 60px;
+  padding: 0 10px;
 }
 
 .main-header__row {
@@ -81,5 +55,30 @@ export default {
   left: 20px;
   display: flex;
   align-items: center;
+}
+
+.gamburger-menu {
+  display: none;
+  margin-left: auto;
+}
+
+@media (max-width: 1330px) {
+  .main-header__row {
+    position: static;
+  }
+
+  .main-header {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 1040px) {
+  .main-header:deep(.menu) {
+    display: none;
+  }
+
+  .gamburger-menu {
+    display: block;
+  }
 }
 </style>
