@@ -70,7 +70,7 @@ export default {
 .menu__item {
   position: relative;
   cursor: pointer;
-  font-size: 19px;
+  font-size: 18px;
   text-decoration: none;
   letter-spacing: 0.5px;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
