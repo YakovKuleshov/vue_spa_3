@@ -7,16 +7,8 @@
         <div class="total__count">Всего:&nbsp;&nbsp;{{ count.toLocaleString() }}</div>
       </div> -->
       <div class="container" ref="container">
-        <div v-for="(item, index) in gallery" class="card__container" :key="index">
-          <div
-            class="image__item"
-            :style="{
-              background: `url('${item.urls.small}') no-repeat center`,
-              backgroundSize: 'cover'
-            }"
-            ref="galleryItem"
-            @click="imgClick(item)"
-          ></div>
+        <div v-for="(item, index) in gallery" class="card__container" :key="index" @click="imgClick(item)">
+          <lazy-image :path="item.urls.small" ref="galleryItem" />
         </div>
         <div v-if="!gallery.length && count != 0" class="preloader"></div>
         <div v-if="count == 0" class="no__items">Ничего не найдено</div>
@@ -161,14 +153,12 @@ input::placeholder {
   }
 }
 
-.image__item {
-  height: 100%;
+.card__container:deep(.lazy-image) {
   cursor: pointer;
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.8);
-  transition: 0.3s;
 }
 
-.card__container:hover .image__item {
+.card__container:hover:deep(.lazy-image) {
   transform: translateZ(10px);
   box-shadow: 7px 9px 20px rgba(0, 0, 0, 0.7);
 }
@@ -176,8 +166,12 @@ input::placeholder {
 
 <script>
 import saveScroll from '@/mixins/saveScroll'
+import LazyImage from '@/elements/lazy-image/LazyImage.vue'
 
 export default {
+  components: {
+    LazyImage
+  },
   data() {
     return {
       gallery: [],

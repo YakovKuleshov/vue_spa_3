@@ -62,7 +62,7 @@ export default {
   margin-left: auto;
 }
 
-@media (max-width: 1330px) {
+@media (max-width: 1500px) {
   .main-header__row {
     position: static;
   }
@@ -72,7 +72,7 @@ export default {
   }
 }
 
-@media (max-width: 1040px) {
+@media (max-width: 1220px) {
   .main-header:deep(.menu) {
     display: none;
   }

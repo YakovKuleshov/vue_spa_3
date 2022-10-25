@@ -4,6 +4,7 @@
     <template v-for="item in filteredList" :key="item.id">
       <div class="menu__item" ref="menuItem">
         <router-link :exact="item.exact" :to="item.id">
+          <p-icon :name="item.icon.name" :viewBox="item.icon.viewBox"/>
           {{ item.name }}
         </router-link>
       </div>
@@ -13,8 +14,12 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex'
+import PIcon from '@/elements/p-icon/PIcon.vue'
 
 export default {
+  components: {
+    PIcon
+  },
   data() {
     return {
       lineWidth: 0,
@@ -23,7 +28,7 @@ export default {
   },
   watch: {
     $route(route) {
-      if (window.innerWidth > 1040) {
+      if (window.innerWidth > 1220) {
         const items = this.$refs.menuItem
         const activeItem = items.find((el) => el.children[0].getAttribute('href') === route.path)
 
@@ -75,6 +80,14 @@ export default {
 .menu__item a {
   color: #fff;
   transition: 0.1s;
+  display: flex;
+  align-items: center;
+}
+
+.p-icon {
+  margin-right: 8px;
+  width: 18px;
+  height: 18px;
 }
 
 .menu__item:after {

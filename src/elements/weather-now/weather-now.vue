@@ -18,7 +18,7 @@
   margin-right: 20px;
 }
 
-@media (max-width: 1330px) {
+@media (max-width: 1500px) {
   .main {
     margin-right: 5px;
   }

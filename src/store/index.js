@@ -1584,37 +1584,65 @@ export default createStore({
           {
             id: '/news',
             name: 'Новости',
-            exact: false
+            exact: false,
+            icon: {
+              name: 'news',
+              viewBox: '0 0 18 20'
+            }
           },
           {
             id: '/gallery',
             name: 'Галерея',
-            exact: false
+            exact: false,
+            icon: {
+              name: 'gallery',
+              viewBox: '0 0 24 23'
+            }
           },
           {
             id: '/films',
             name: 'Фильмы',
-            exact: false
+            exact: false,
+            icon: {
+              name: 'films',
+              viewBox: '0 0 20 20'
+            }
           },
           {
             id: '/other',
             name: 'Разное',
-            exact: false
+            exact: false,
+            icon: {
+              name: 'other',
+              viewBox: '0 0 20 20'
+            }
           },
           {
             id: '/information',
             name: 'Информация',
-            exact: false
+            exact: false,
+            icon: {
+              name: 'information',
+              viewBox: '0 0 22 21'
+            }
           },
           {
             id: '/shop',
             name: 'Магазин',
-            exact: false
+            exact: false,
+            icon: {
+              name: 'shop',
+              viewBox: '0 0 20 19'
+            }
           },
           {
             id: '/dynamics',
             name: 'Динамика',
-            exact: false
+            exact: false,
+            icon: {
+              name: 'dynamics',
+              viewBox: '0 0 24 24'
+            }
           }
         ]
       },
