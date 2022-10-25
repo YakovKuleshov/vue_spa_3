@@ -368,7 +368,7 @@ export default {
           el[item] = val
           return {
             value: val,
-            difference: Math.random() * 100
+            difference: (Math.random() - 0.5) * 100
           }
         })
 
