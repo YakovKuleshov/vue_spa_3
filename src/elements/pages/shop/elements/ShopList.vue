@@ -34,7 +34,7 @@
 .cards__container {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  grid-auto-rows: 300px;
+  grid-auto-rows: 350px;
   grid-gap: 20px;
 }
 

@@ -11,9 +11,10 @@
       <div class="import__components">
         <div class="content">
           <router-view @onImageClick="imageClick" @onFilmClick="filmClick" v-slot="{ Component }">
-            <keep-alive>
+            <keep-alive v-if="$route.meta.keepAlive">
               <component :is="Component" />
             </keep-alive>
+            <component v-if="!$route.meta.keepAlive" :is="Component" />
           </router-view>
         </div>
       </div>
@@ -92,7 +93,7 @@ export default {
   },
   watch: {
     $route({ meta }) {
-      document.title = meta.title
+      if (meta.title) document.title = meta.title
     }
   },
   methods: {

@@ -25,16 +25,12 @@
           </div>
         </div>
       </div>
-      <select
-        class="select"
-        :value="filter"
-        @change="sortList($event.target.value.trim())"
-      >
+      <select class="select" :value="filter" @change="sortList($event.target.value.trim())">
         <option value="random">По-умолчанию</option>
         <option value="decreasing">Цена по убыванию</option>
         <option value="ascending">Цена по возрастанию</option>
       </select>
-      <div class="icons__container">
+      <!-- <div class="icons__container">
         <div
           v-for="item in viewList"
           class="view__icon"
@@ -42,12 +38,12 @@
           :key="item.id"
           @click="changeView(item.id)"
         ></div>
-      </div>
+      </div> -->
     </div>
-    <div class="cart__container" @click="toCart">
+    <!-- <div class="cart__container" @click="toCart">
       <div class="cart"></div>
       <div class="cart__value">{{ totalCount }}</div>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -69,17 +65,21 @@
 
 .sub__title {
   font-size: 20px;
-  position: absolute;
   left: 20px;
+  margin: 0;
+  flex-shrink: 0;
 }
 
 .filters__container {
   display: flex;
-  margin-left: 180px;
+  margin-left: 20px;
+  width: 100%;
 }
 
 .autocomplite {
   position: relative;
+  width: 100%;
+  max-width: 280px;
 }
 
 .search {
@@ -88,7 +88,7 @@
   border-radius: 5px;
   padding: 0 10px;
   border: 1px solid #ccc;
-  width: 210px;
+  width: 100%;
   outline: none;
   font-size: 15px;
   background: #dfe5ec;
@@ -148,7 +148,8 @@
   box-sizing: border-box;
   border-radius: 5px;
   outline: none;
-  width: 210px;
+  width: 100%;
+  max-width: 280px;
   border: 1px solid #ccc;
   margin-left: 10px;
   font-size: 15px;
@@ -206,35 +207,39 @@
   display: block;
 }
 
-@media screen and (max-width: 592px) {
-  .icons__container {
-    display: none;
-  }
-}
-
-@media screen and (max-width: 810px) {
+@media screen and (max-width: 768px) {
   .ShopList {
     height: auto;
     flex-direction: column;
     align-items: unset;
-    padding-bottom: 20px;
+    padding: 10px 20px;
+  }
+
+  .sub__title {
+    margin-bottom: 10px;
   }
 
   .ShopList .filters__container {
-    display: block;
-    margin-left: 0;
-    margin-top: 60px;
-  }
-
-  .ShopList .autocomplite {
     margin-left: 0;
   }
+}
 
-  .ShopList .search,
-  .ShopList .select,
-  .ShopList .icons__container {
-    width: 100%;
-    margin: 0 0 10px;
+@media screen and (max-width: 540px) {
+  .filters__container {
+    flex-direction: column;
+  }
+
+  .select {
+    margin-left: 0;
+    max-width: 100%;
+  }
+
+  .search {
+    margin-bottom: 10px;
+  }
+
+  .autocomplite {
+    max-width: 100%;
   }
 }
 </style>
@@ -277,15 +282,12 @@ export default {
     ...mapState('moduleStore', ['productList', 'filter', 'view']),
     ...mapGetters('moduleStore', ['totalCount']),
     searchedList() {
-      return this.value
-        ? this.cloneList.filter((el) =>
-            el.name.trim().toLowerCase().includes(this.value.toLowerCase())
-          )
-        : []
+      return this.value ? this.cloneList.filter((el) => el.name.trim().toLowerCase().includes(this.value.toLowerCase())) : []
     }
   },
   methods: {
-    ...mapMutations('moduleStore', ['searchList', 'sortList', 'changeView']),
+    // ...mapMutations('moduleStore', ['searchList', 'sortList', 'changeView']),
+    ...mapMutations('moduleStore', ['searchList', 'sortList']),
     toCart() {
       this.value = ''
       this.sortList('random')
@@ -308,10 +310,7 @@ export default {
           this.searchList(this.value)
         }
 
-        this.count = Math.min(
-          Math.max(0, this.count),
-          this.searchedList.length - 1
-        )
+        this.count = Math.min(Math.max(0, this.count), this.searchedList.length - 1)
       }
     },
     selectInDropdownProduct(item) {
@@ -320,8 +319,7 @@ export default {
     },
     showDropdown() {
       if (this.$refs.dropdown) {
-        if (this.searchedList.length)
-          this.$refs.dropdown.classList.add('active')
+        if (this.searchedList.length) this.$refs.dropdown.classList.add('active')
       }
     },
     hideDropdown() {
@@ -330,10 +328,7 @@ export default {
     scrollDropdown() {
       const dropdown = this.$refs.dropdown
       const activeItem = document.querySelector('.dropdown__item__active')
-      dropdown.scrollTop =
-        activeItem.offsetHeight * this.count -
-        dropdown.offsetHeight / 2 +
-        activeItem.offsetHeight
+      dropdown.scrollTop = activeItem.offsetHeight * this.count - dropdown.offsetHeight / 2 + activeItem.offsetHeight
     }
   },
   mounted() {
@@ -342,8 +337,7 @@ export default {
   activated() {
     this.value = ''
     window.addEventListener('click', this.hideDropdown)
-    window.onresize = () =>
-      window.innerWidth < 590 ? this.changeView('list') : null
+    // window.onresize = () => (window.innerWidth < 590 ? this.changeView('list') : null)
   },
   deactivated() {
     window.removeEventListener('click', this.hideDropdown)

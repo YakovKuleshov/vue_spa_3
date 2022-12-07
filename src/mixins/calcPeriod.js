@@ -1,10 +1,6 @@
 export default {
   computed: {
     calcPeriod() {
-      this.chartData.datasets.forEach(el => {
-        el.data = []
-      })
-
       this.filters.period.start.setHours(0, 0, 0)
       this.filters.period.end.setHours(0, 0, 0)
 
@@ -28,12 +24,7 @@ export default {
   },
   methods: {
     getDateObject(date) {
-      return new Date(
-        date
-          .split('.')
-          .reverse()
-          .join(',')
-      )
+      return new Date(date.split('.').reverse().join(','))
     }
   }
 }

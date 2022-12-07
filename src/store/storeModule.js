@@ -1,154 +1,309 @@
-const storeModule = {   
-   state: () => ({            
-      cartList: JSON.parse(localStorage.getItem('storage_cart_list')) || [],
-      productList: [
-         {
-            id: '1',
-            name: 'Ferrari 488',
-            price: '100000',
-            count: '1',
-            image: 'img/ferrari_2.jpg'
-         }, 
-         {
-            id: '6',
-            name: 'Mercedes benz amg sls',
-            price: '250000',
-            count: '1',
-            image: 'img/mercedes.jpg'            
-         },        
-         {
-            id: '3',
-            name: 'Chevrolet Corvette C5-R',
-            price: '200000',
-            count: '1',
-            image: 'img/corvette.jpg'
-         },
-         {
-            id: '2',
-            name: 'Lamborghini Aventador',
-            price: '150000',
-            count: '1',
-            image: 'img/lamborghini.jpg'
-         },
-         {
-            id: '9',
-            name: 'Ferrari 488 GT3',
-            price: '220000',
-            count: '1',
-            image: 'img/ferrari.jpg'
-         },
-         {
-            id: '4',
-            name: 'Lamborghini huracan',
-            price: '110000',
-            count: '1',
-            image: 'img/huracan.jpg'
-         },
-         {
-            id: '5',
-            name: 'Ford GT40',
-            price: '230000',
-            count: '1',
-            image: 'img/ford_3.jpg'
-         },         
-         {
-            id: '7',
-            name: 'Bugatti Veyron 16.4 Grand Sport Vitesse',
-            price: '400000',
-            count: '1',
-            image: 'img/bugatti.jpg'
-         },
-         {
-            id: '12',
-            name: 'Ford GT40 restyling',
-            price: '260000',
-            count: '1',
-            image: 'img/ford_2.jpg'
-         },
-         {
-            id: '8',
-            name: 'Porshe 911 turbo s',
-            price: '210000',
-            count: '1',
-            image: 'img/porshe_2.jpg'
-         },         
-         {
-            id: '10',
-            name: 'Ferrari 458 italia',
-            price: '160000',
-            count: '1',
-            image: 'img/ferrari_3.jpg'
-         },
-         {
-            id: '11',
-            name: 'Ford GT40 2020',
-            price: '300000',
-            count: '1',
-            image: 'img/ford.jpg'
-         }         
-      ],
-      cartCount: 0,
-      search: '',
-      filter: 'random',
-      view: window.innerWidth > 590 ? 'tile' : 'list'
-   }),
-   getters: {
-      totalCount(state) {         
-         return state.cartList.reduce((acc, item) => acc += +item.count, 0);
+const randomNum = Math.random() < 0.5 ? -1 : 1
+
+const storeModule = {
+  state: () => ({
+    cartList: JSON.parse(localStorage.getItem('storage_cart_list')) || [],
+    productList: [
+      {
+        id: 46289640,
+        name: 'Робот-пылесос Mi Robot Mop 2 Lite RU',
+        price: 12300,
+        count: '1',
+        image: 'https://images.wbstatic.net/big/new/114460000/114460298-1.jpg',
+        brand_name: 'Xiaomi',
+        seller_name: 'WB',
+        rating: 3.7,
+        reviews_cnt: 1371,
+        discount: 30,
+        promo_code_discount: 13,
+        sales_cnt: Math.floor(Math.random() * 1000),
+        sales_delta: Math.floor(Math.random() * 100 * randomNum),
+        quantity_cnt: Math.floor(Math.random() * 1000),
+        proceeds: Math.floor(Math.random() * 40000000),
+        proceeds_delta: Math.floor(Math.random() * 100 * randomNum),
+        lost_proceeds: Math.floor(Math.random() * 1000000),
+        lost_proceeds_delta: Math.floor(Math.random() * 100 * randomNum)
       },
-      totalPrice(state) {
-         return state.cartList.reduce((acc, item) => acc += +item.price * +item.count, 0);
+      {
+        id: 36129640,
+        name: 'Фитнес-браслет Mi Band 6',
+        price: 1995,
+        count: '1',
+        image: 'https://images.wbstatic.net/big/new/26410000/26414401-1.jpg',
+        brand_name: 'Xiaomi',
+        seller_name: 'WB',
+        rating: 4.7,
+        reviews_cnt: 2171,
+        discount: 20,
+        promo_code_discount: 5,
+        sales_cnt: Math.floor(Math.random() * 1000),
+        sales_delta: Math.floor(Math.random() * 100 * randomNum),
+        quantity_cnt: Math.floor(Math.random() * 1000),
+        proceeds: Math.floor(Math.random() * 40000000),
+        proceeds_delta: Math.floor(Math.random() * 100 * randomNum),
+        lost_proceeds: Math.floor(Math.random() * 1000000),
+        lost_proceeds_delta: Math.floor(Math.random() * 100 * randomNum)
       },
-      sortedList(state) {         
-         if(state.filter == 'decreasing') {
-            return [...state.productList].sort((a, b) => +b.price - +a.price);
-         }else if(state.filter == 'ascending') {
-            return [...state.productList].sort((a, b) => +a.price - +b.price);
-         }else {
-            return state.productList;
-         }         
+      {
+        id: 16129246,
+        name: 'Консоль PS5 Disk Edition 825 ГБ (CFI-1100A)',
+        price: 52191,
+        count: '1',
+        image: 'https://images.wbstatic.net/big/new/119280000/119286869-1.jpg',
+        brand_name: 'Sony',
+        seller_name: 'WB',
+        rating: 5,
+        reviews_cnt: 3171,
+        discount: 10,
+        promo_code_discount: 0,
+        sales_cnt: Math.floor(Math.random() * 1000),
+        sales_delta: Math.floor(Math.random() * 100 * randomNum),
+        quantity_cnt: Math.floor(Math.random() * 1000),
+        proceeds: Math.floor(Math.random() * 40000000),
+        proceeds_delta: Math.floor(Math.random() * 100 * randomNum),
+        lost_proceeds: Math.floor(Math.random() * 1000000),
+        lost_proceeds_delta: Math.floor(Math.random() * 100 * randomNum)
       },
-      searchedList(state, { sortedList }) {         
-         return sortedList.filter(el => el.name.toLowerCase().includes(state.search.toLowerCase()));
+      {
+        id: 56523341,
+        name: 'Смартфон С31 4/64Gb:6.5/ HD+/ NFC/5000mA',
+        price: 8953,
+        count: '1',
+        image: 'https://images.wbstatic.net/big/new/115110000/115119935-1.jpg',
+        brand_name: 'realme',
+        seller_name: 'WB',
+        rating: 2.5,
+        reviews_cnt: 500,
+        discount: 0,
+        promo_code_discount: 0,
+        sales_cnt: Math.floor(Math.random() * 1000),
+        sales_delta: Math.floor(Math.random() * 100 * randomNum),
+        quantity_cnt: Math.floor(Math.random() * 1000),
+        proceeds: Math.floor(Math.random() * 40000000),
+        proceeds_delta: Math.floor(Math.random() * 100 * randomNum),
+        lost_proceeds: Math.floor(Math.random() * 1000000),
+        lost_proceeds_delta: Math.floor(Math.random() * 100 * randomNum)
+      },
+      {
+        id: 26413647,
+        name: 'Samsung Galaxy Watch5 Pro',
+        price: 23793,
+        count: '1',
+        image: 'https://images.wbstatic.net/big/new/134640000/134645632-1.jpg',
+        brand_name: 'samsung',
+        seller_name: 'WB',
+        rating: 4.8,
+        reviews_cnt: 1230,
+        discount: 5,
+        promo_code_discount: 2,
+        sales_cnt: Math.floor(Math.random() * 1000),
+        sales_delta: Math.floor(Math.random() * 100 * randomNum),
+        quantity_cnt: Math.floor(Math.random() * 1000),
+        proceeds: Math.floor(Math.random() * 40000000),
+        proceeds_delta: Math.floor(Math.random() * 100 * randomNum),
+        lost_proceeds: Math.floor(Math.random() * 1000000),
+        lost_proceeds_delta: Math.floor(Math.random() * 100 * randomNum)
+      },
+      {
+        id: 17488687,
+        name: 'Кофемашина ECAM350.35.W',
+        price: 45812,
+        count: '1',
+        image: 'https://images.wbstatic.net/big/new/124930000/124935278-1.jpg',
+        brand_name: 'ECAM',
+        seller_name: 'WB',
+        rating: 4.5,
+        reviews_cnt: 2230,
+        discount: 12,
+        promo_code_discount: 3,
+        sales_cnt: Math.floor(Math.random() * 1000),
+        sales_delta: Math.floor(Math.random() * 100 * randomNum),
+        quantity_cnt: Math.floor(Math.random() * 1000),
+        proceeds: Math.floor(Math.random() * 40000000),
+        proceeds_delta: Math.floor(Math.random() * 100 * randomNum),
+        lost_proceeds: Math.floor(Math.random() * 1000000),
+        lost_proceeds_delta: Math.floor(Math.random() * 100 * randomNum)
+      },
+      {
+        id: 17481687,
+        name: 'Шлифмашина эксцентриковая сетевая DEKO DKG400-125, 063-2203',
+        price: 1789,
+        count: '1',
+        image: 'https://images.wbstatic.net/big/new/41520000/41522989-1.jpg',
+        brand_name: 'DEKO',
+        seller_name: 'WB',
+        rating: 3.7,
+        reviews_cnt: 230,
+        discount: 2,
+        promo_code_discount: 0,
+        sales_cnt: Math.floor(Math.random() * 1000),
+        sales_delta: Math.floor(Math.random() * 100 * randomNum),
+        quantity_cnt: Math.floor(Math.random() * 1000),
+        proceeds: Math.floor(Math.random() * 40000000),
+        proceeds_delta: Math.floor(Math.random() * 100 * randomNum),
+        lost_proceeds: Math.floor(Math.random() * 1000000),
+        lost_proceeds_delta: Math.floor(Math.random() * 100 * randomNum)
+      },
+      {
+        id: 47448217,
+        name: 'Наушники HUAWEI FreeBuds Pro 2',
+        price: 14249,
+        count: '1',
+        image: 'https://images.wbstatic.net/big/new/116820000/116827476-1.jpg',
+        brand_name: 'HUAWEI',
+        seller_name: 'WB',
+        rating: 5,
+        reviews_cnt: 40,
+        discount: 22,
+        promo_code_discount: 10,
+        sales_cnt: Math.floor(Math.random() * 1000),
+        sales_delta: Math.floor(Math.random() * 100 * randomNum),
+        quantity_cnt: Math.floor(Math.random() * 1000),
+        proceeds: Math.floor(Math.random() * 40000000),
+        proceeds_delta: Math.floor(Math.random() * 100 * randomNum),
+        lost_proceeds: Math.floor(Math.random() * 1000000),
+        lost_proceeds_delta: Math.floor(Math.random() * 100 * randomNum)
+      },
+      {
+        id: 77743227,
+        name: 'Микроволновая печь Gorenje MO20E1W2',
+        price: 4283,
+        count: '1',
+        image: 'https://images.wbstatic.net/big/new/31460000/31461470-1.jpg',
+        brand_name: 'Gorenje',
+        seller_name: 'WB',
+        rating: 4,
+        reviews_cnt: 600,
+        discount: 0,
+        promo_code_discount: 0,
+        sales_cnt: Math.floor(Math.random() * 1000),
+        sales_delta: Math.floor(Math.random() * 100 * randomNum),
+        quantity_cnt: Math.floor(Math.random() * 1000),
+        proceeds: Math.floor(Math.random() * 40000000),
+        proceeds_delta: Math.floor(Math.random() * 100 * randomNum),
+        lost_proceeds: Math.floor(Math.random() * 1000000),
+        lost_proceeds_delta: Math.floor(Math.random() * 100 * randomNum)
+      },
+      {
+        id: 97145242,
+        name: 'Корпус для компьютера ZALMAN ZM-T4',
+        price: 8309,
+        count: '1',
+        image: 'https://images.wbstatic.net/big/new/42100000/42104895-1.jpg',
+        brand_name: 'ZALMAN',
+        seller_name: 'WB',
+        rating: 5,
+        reviews_cnt: 10,
+        discount: 10,
+        promo_code_discount: 20,
+        sales_cnt: Math.floor(Math.random() * 1000),
+        sales_delta: Math.floor(Math.random() * 100 * randomNum),
+        quantity_cnt: Math.floor(Math.random() * 1000),
+        proceeds: Math.floor(Math.random() * 40000000),
+        proceeds_delta: Math.floor(Math.random() * 100 * randomNum),
+        lost_proceeds: Math.floor(Math.random() * 1000000),
+        lost_proceeds_delta: Math.floor(Math.random() * 100 * randomNum)
+      },
+      {
+        id: 97345242,
+        name: 'Мультиварка-скороварка Midea MPC-6002',
+        price: 5449,
+        count: '1',
+        image: 'https://images.wbstatic.net/big/new/13410000/13413890-1.jpg',
+        brand_name: 'Midea',
+        seller_name: 'WB',
+        rating: 5,
+        reviews_cnt: 467,
+        discount: 20,
+        promo_code_discount: 10,
+        sales_cnt: Math.floor(Math.random() * 1000),
+        sales_delta: Math.floor(Math.random() * 100 * randomNum),
+        quantity_cnt: Math.floor(Math.random() * 1000),
+        proceeds: Math.floor(Math.random() * 40000000),
+        proceeds_delta: Math.floor(Math.random() * 100 * randomNum),
+        lost_proceeds: Math.floor(Math.random() * 1000000),
+        lost_proceeds_delta: Math.floor(Math.random() * 100 * randomNum)
+      },
+      {
+        id: 17145242,
+        name: 'Кухонный комбайн BOSCH MUMS2TW00',
+        price: 14350,
+        count: '1',
+        image: 'https://images.wbstatic.net/big/new/83770000/83777374-1.jpg',
+        brand_name: 'BOSCH',
+        seller_name: 'WB',
+        rating: 5,
+        reviews_cnt: 27,
+        discount: 10,
+        promo_code_discount: 2,
+        sales_cnt: Math.floor(Math.random() * 1000),
+        sales_delta: Math.floor(Math.random() * 100 * randomNum),
+        quantity_cnt: Math.floor(Math.random() * 1000),
+        proceeds: Math.floor(Math.random() * 40000000),
+        proceeds_delta: Math.floor(Math.random() * 100 * randomNum),
+        lost_proceeds: Math.floor(Math.random() * 1000000),
+        lost_proceeds_delta: Math.floor(Math.random() * 100 * randomNum)
       }
-   },
-   mutations: {     
-      addToCart(state, product) {
-         state.cartList.push({...product});
-         localStorage.setItem('storage_cart_list', JSON.stringify(state.cartList));
-      },
-      removeFromCart(state, product_id) {
-         state.cartList =  state.cartList.filter(el => el.id !== product_id);
-         localStorage.setItem('storage_cart_list', JSON.stringify(state.cartList));
-      },
-      minus(state, product_id) {      
-         const elem = state.cartList.find(el => el.id === product_id);
-         elem.count = +elem.count
-         elem.count--
-         elem.count = Math.min(Math.max(1, elem.count), 10);    
-         localStorage.setItem('storage_cart_list', JSON.stringify(state.cartList));      
-      },
-      plus(state, product_id) {         
-         const elem = state.cartList.find(el => el.id === product_id);
-         elem.count = +elem.count
-         elem.count++
-         elem.count = Math.min(Math.max(1, elem.count), 10);             
-         localStorage.setItem('storage_cart_list', JSON.stringify(state.cartList));
-      },
-      searchList(state, search_value) {         
-         state.search = search_value;
-      },
-      sortList(state, filter_param) {         
-         state.filter = filter_param;
-      },
-      changeView(state, view_param) {         
-         state.view = view_param;
+    ],
+    cartCount: 0,
+    search: '',
+    filter: 'random',
+    //  view: window.innerWidth > 590 ? 'tile' : 'list'
+    view: 'tile'
+  }),
+  getters: {
+    totalCount(state) {
+      return state.cartList.reduce((acc, item) => (acc += +item.count), 0)
+    },
+    totalPrice(state) {
+      return state.cartList.reduce((acc, item) => (acc += +item.price * +item.count), 0)
+    },
+    sortedList(state) {
+      if (state.filter == 'decreasing') {
+        return [...state.productList].sort((a, b) => +b.price - +a.price)
+      } else if (state.filter == 'ascending') {
+        return [...state.productList].sort((a, b) => +a.price - +b.price)
+      } else {
+        return state.productList
       }
-   }
+    },
+    searchedList(state, { sortedList }) {
+      return sortedList.filter((el) => el.name.toLowerCase().includes(state.search.toLowerCase()))
+    }
+  },
+  mutations: {
+    addToCart(state, product) {
+      state.cartList.push({ ...product })
+      localStorage.setItem('storage_cart_list', JSON.stringify(state.cartList))
+    },
+    removeFromCart(state, product_id) {
+      state.cartList = state.cartList.filter((el) => el.id !== product_id)
+      localStorage.setItem('storage_cart_list', JSON.stringify(state.cartList))
+    },
+    minus(state, product_id) {
+      const elem = state.cartList.find((el) => el.id === product_id)
+      elem.count = +elem.count
+      elem.count--
+      elem.count = Math.min(Math.max(1, elem.count), 10)
+      localStorage.setItem('storage_cart_list', JSON.stringify(state.cartList))
+    },
+    plus(state, product_id) {
+      const elem = state.cartList.find((el) => el.id === product_id)
+      elem.count = +elem.count
+      elem.count++
+      elem.count = Math.min(Math.max(1, elem.count), 10)
+      localStorage.setItem('storage_cart_list', JSON.stringify(state.cartList))
+    },
+    searchList(state, search_value) {
+      state.search = search_value
+    },
+    sortList(state, filter_param) {
+      state.filter = filter_param
+    },
+    changeView(state, view_param) {
+      state.view = view_param
+    }
+  }
 }
 
 export default storeModule
-
-
-
-

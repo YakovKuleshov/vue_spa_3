@@ -16,14 +16,14 @@
             :key="item"
             class="list__header__title"
             :class="{
-              disabled: sortedList.length === 1,
-              active: sortOptions.field === item && sortedList.length !== 1
+              disabled: !sortable || sortedList.length === 1,
+              active: sortable && sortOptions.field === item && sortedList.length !== 1
             }"
             @click="sortList(item)"
           >
             {{ item }}
             <div
-              v-if="sortOptions.field === item && sortedList.length !== 1"
+              v-if="sortOptions.field === item && sortedList.length !== 1 && sortable"
               class="sort__icon"
               :class="{ sort__icon_asc: sortOptions.direction === '0' }"
             >
@@ -278,7 +278,7 @@
 </style>
 
 <script>
-import scrollList from './scrollList'
+import scrollList from '@/mixins/scrollList.js'
 
 export default {
   mixins: [scrollList],
@@ -290,6 +290,14 @@ export default {
     datasets: {
       type: Array,
       default: () => []
+    },
+    filterable: {
+      type: Boolean,
+      default: false
+    },
+    sortable: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -308,12 +316,10 @@ export default {
   },
   computed: {
     calcWidth() {
-      if (this.periodList[0].includes('-')) return '170px'
-      if (/[а-я]/g.test(this.periodList[0])) return '130px'
       return '110px'
     },
     filteredList() {
-      return this.datasets.filter((el) => el.selected)
+      return this.filterable ? this.datasets.filter((el) => el.selected) : this.datasets
     },
     sortedList() {
       if (this.sortOptions.direction === '0') {
@@ -328,16 +334,18 @@ export default {
       return value > 0 ? `+${value.toLocaleString('ru').replace(/\d$/, '')}` : value.toLocaleString('ru').replace(/\d$/, '')
     },
     sortList(item) {
-      if (this.sortOptions.field === item) {
-        this.sortOptions.direction = this.sortOptions.direction === '1' ? '0' : '1'
-      } else {
-        this.sortOptions.direction = '1'
-      }
+      if (this.sortable) {
+        if (this.sortOptions.field === item) {
+          this.sortOptions.direction = this.sortOptions.direction === '1' ? '0' : '1'
+        } else {
+          this.sortOptions.direction = '1'
+        }
 
-      this.sortOptions.field = item
+        this.sortOptions.field = item
+      }
     }
   },
-  activated() {
+  mounted() {
     this.width = this.$refs.namesContainer.offsetWidth
   }
 }

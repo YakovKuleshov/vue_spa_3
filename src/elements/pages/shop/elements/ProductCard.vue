@@ -1,13 +1,14 @@
 <template>
   <div class="card" :class="view">
-    <img class="image" :src="getImage(item)" />
+    <img class="image" :src="item.image" />
     <div class="text__container">
-      <div class="card__title">{{ item.name }}</div>
+      <div class="card__title" :title="item.name">{{ item.name }}</div>
       <div class="wrapper__row">
-        <div class="card__button" :class="{ in__cart: isInCart }" @click="toCart">{{ isInCart ? 'Удалить' : 'В корзину' }}</div>
-        <div class="card__price">Цена: {{ Number(item.price).toLocaleString() }}</div>
+        <!-- <div class="card__button" :class="{ in__cart: isInCart }" @click="toCart">{{ isInCart ? 'Удалить' : 'В корзину' }}</div> -->
+        <div class="card__price">{{ Number(item.price).toLocaleString() }} ₽</div>
       </div>
     </div>
+    <router-link :to="`shop/${item.id}`" />
   </div>
 </template>
 
@@ -17,22 +18,36 @@
 }
 
 .card {
+  position: relative;
   background: #fff;
   box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.3);
   border-radius: 5px;
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
+  overflow: hidden;
+}
+
+.card a {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transition: 0.3s;
+}
+.card a:hover {
+  background: rgba(0, 0, 0, 0.1);
 }
 
 .image {
-  height: 50%;
+  height: 60%;
   width: 100%;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .text__container {
-  padding: 20px 10px 10px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
@@ -41,9 +56,10 @@
 }
 
 .card__title {
-  line-height: 20px;
+  text-align: center;
+  line-height: 25px;
   display: -webkit-box;
-  -webkit-line-clamp: 4;
+  -webkit-line-clamp: 2;
   overflow: hidden;
   -webkit-box-orient: vertical;
 }
@@ -52,7 +68,12 @@
   margin-top: auto;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+}
+
+.card__price {
+  color: #8f8f8f;
+  font-size: 20px;
 }
 
 .card__button {
@@ -129,10 +150,10 @@ export default {
     ...mapMutations('moduleStore', ['addToCart', 'removeFromCart']),
     toCart() {
       this.isInCart ? this.removeFromCart(this.item.id) : this.addToCart(this.item)
-    },
-    getImage(item) {
-      return require(`@/assets/${item.image}`)
     }
+    // getImage(item) {
+    //   return require(`@/assets/${item.image}`)
+    // }
   },
   computed: {
     ...mapState('moduleStore', ['cartList']),

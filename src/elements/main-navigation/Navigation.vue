@@ -3,8 +3,8 @@
     <div v-if="lineWidth" class="shadow__line" :style="{ width: lineWidth + 'px', left: lineLeft + 'px' }" />
     <template v-for="item in filteredList" :key="item.id">
       <div class="menu__item" ref="menuItem">
-        <router-link :exact="item.exact" :to="item.id">
-          <p-icon :name="item.icon.name" :viewBox="item.icon.viewBox"/>
+        <router-link :exact="item.exact" :class="{ menu__active: activeClass(item) }" :to="item.id">
+          <p-icon :name="item.icon.name" :viewBox="item.icon.viewBox" />
           {{ item.name }}
         </router-link>
       </div>
@@ -29,9 +29,9 @@ export default {
   watch: {
     $route(route) {
       if (window.innerWidth > 1220) {
+        const arr = route.path.split('/')
         const items = this.$refs.menuItem
-        const activeItem = items.find((el) => el.children[0].getAttribute('href') === route.path)
-
+        const activeItem = [...items].find((el) => arr.includes(el.children[0].getAttribute('href').replace('/', '')))
         setTimeout(() => {
           if (activeItem) {
             this.lineWidth = activeItem.offsetWidth
@@ -39,6 +39,12 @@ export default {
           }
         })
       }
+    }
+  },
+  methods: {
+    activeClass(item) {
+      const arr = this.$route.path.split('/')
+      return arr.includes(item.id.replace('/', ''))
     }
   },
   computed: {
@@ -109,7 +115,8 @@ export default {
   display: none;
 }
 
-.router-link-exact-active {
+.router-link-exact-active,
+.menu__active {
   color: #f90 !important;
 }
 </style>

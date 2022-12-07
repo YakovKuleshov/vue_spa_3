@@ -1,6 +1,6 @@
 <template>
   <div class="cart__item">
-    <div class="image" :style="{ backgroundImage: `url(${getImage})` }"></div>
+    <div class="image" :style="{ backgroundImage: `url(${item.image})` }"></div>
     <div class="product__name">{{ item.name }}</div>
     <Counter class="counter" :item="item" />
     <div class="price">{{ Number(item.price).toLocaleString() }}</div>
@@ -28,7 +28,7 @@
   height: 40px;
   background-repeat: no-repeat;
   background-position: center;
-  background-size: cover;
+  background-size: contain;
   border-radius: 5px;
   margin-right: 10px;
   flex-shrink: 0;
@@ -98,11 +98,11 @@ export default {
   },
   methods: {
     ...mapMutations('moduleStore', ['removeFromCart'])
-  },
-  computed: {
-    getImage() {
-      return require(`@/assets/${this.item.image}`)
-    }
   }
+  // computed: {
+  //   getImage() {
+  //     return require(`@/assets/${this.item.image}`)
+  //   }
+  // }
 }
 </script>

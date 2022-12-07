@@ -15,7 +15,6 @@
           </option>
         </select>
       </div>
-      <!-- <selected-period :period="filters.period"></selected-period> -->
       <Chart :chart-data="chartDataFiltered" :options="options" />
       <div class="row__section">
         <h3 class="statistics__title">Анализ динамики</h3>
@@ -24,7 +23,7 @@
           {{ filters.period.end.toLocaleDateString() }}
         </span>
       </div>
-      <dynamics-list :period-list="chartData.labels" :datasets="chartData.datasets" />
+      <dynamics-list :period-list="chartData.labels" :datasets="chartData.datasets" filterable sortable />
     </div>
   </div>
 </template>
@@ -129,7 +128,7 @@
 import Chart from './Chart.vue'
 import DynamicsList from './DynamicsList.vue'
 import ChartLabels from './ChartLabels.vue'
-import calcPeriod from './calcPeriod.js'
+import calcPeriod from '@/mixins/calcPeriod'
 
 const start = new Date()
 const end = new Date()

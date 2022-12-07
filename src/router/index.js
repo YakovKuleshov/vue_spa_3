@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+// import { productTabs } from '@/constants/index'
 
 const routes = [
   {
@@ -10,7 +11,8 @@ const routes = [
     name: 'admin_panel',
     component: () => import('@/elements/pages/AdminPanel'),
     meta: {
-      title: 'Админ панель'
+      title: 'Админ панель',
+      keepAlive: true
     }
   },
   {
@@ -18,7 +20,8 @@ const routes = [
     name: 'news',
     component: () => import('@/elements/pages/page-news'),
     meta: {
-      title: 'Новости'
+      title: 'Новости',
+      keepAlive: true
     }
   },
   {
@@ -26,7 +29,8 @@ const routes = [
     name: 'gallery',
     component: () => import('@/elements/pages/page-gallery'),
     meta: {
-      title: 'Галерея'
+      title: 'Галерея',
+      keepAlive: true
     }
   },
   {
@@ -34,7 +38,8 @@ const routes = [
     name: 'films',
     component: () => import('@/elements/pages/page-films'),
     meta: {
-      title: 'Фильмы'
+      title: 'Фильмы',
+      keepAlive: true
     }
   },
   {
@@ -42,7 +47,8 @@ const routes = [
     name: 'other',
     component: () => import('@/elements/pages/page-other'),
     meta: {
-      title: 'Разное'
+      title: 'Разное',
+      keepAlive: true
     }
   },
   {
@@ -50,7 +56,8 @@ const routes = [
     name: 'information',
     component: () => import('@/elements/pages/Pagination'),
     meta: {
-      title: 'Информация'
+      title: 'Информация',
+      keepAlive: true
     }
     // beforeEnter: (to, from, next) => {
     //    next('/pagination?page=1')
@@ -67,7 +74,8 @@ const routes = [
     props: true,
     component: () => import('@/elements/pages/info-page'),
     meta: {
-      title: 'Информация'
+      title: 'Информация',
+      keepAlive: true
     }
   },
   {
@@ -75,13 +83,65 @@ const routes = [
     name: 'shop',
     component: () => import('@/elements/pages/shop/ShopApp'),
     meta: {
-      title: 'Магазин'
+      title: 'Магазин',
+      keepAlive: true
     }
+  },
+  {
+    path: '/shop/:id(\\d+)',
+    name: 'product_page',
+    component: () => import('@/elements/pages/shop/productPage/ProductPage.vue'),
+    redirect: { name: 'product_page_price' },
+    keepAlive: false,
+    // beforeEnter: (to, from, next) => {
+    //   const pathId = to.path.replace('/shop/', '')
+    //   const validId = productTabs.some((tab) => tab.id === pathId)
+
+    //   if (!validId) {
+    //     next('/shop/price')
+    //   } else {
+    //     next()
+    //   }
+    // }
+    children: [
+      {
+        path: 'price',
+        name: 'product_page_price',
+        component: () => import('@/elements/pages/shop/productPage/Price.vue'),
+        meta: {
+          tab: 'price'
+        }
+      },
+      {
+        path: 'remains',
+        name: 'product_page_remains',
+        component: () => import('@/elements/pages/shop/productPage/Remains.vue'),
+        meta: {
+          tab: 'remains'
+        }
+      },
+      {
+        path: 'reviews',
+        name: 'product_page_reviews',
+        component: () => import('@/elements/pages/shop/productPage/Reviews.vue'),
+        meta: {
+          tab: 'reviews'
+        }
+      },
+      {
+        path: 'lostRevenue',
+        name: 'product_page_lostRevenue',
+        component: () => import('@/elements/pages/shop/productPage/LostRevenue.vue'),
+        meta: {
+          tab: 'lostRevenue'
+        }
+      }
+    ]
   },
   {
     path: '/dynamics',
     name: 'dynamics',
-    component: () => import('@/elements/pages/chartsPage/DynamicsPage'),
+    component: () => import('@/elements/pages/Dynamics/DynamicsPage'),
     meta: {
       title: 'Динамика'
     }
@@ -96,7 +156,7 @@ window.onload = () => {
   })
 
   const route = routes.find((route) => route.path === location.pathname)
-  document.title = route.meta.title
+  if (route?.meta?.title) document.title = route.meta.title
 }
 
 const router = createRouter({
