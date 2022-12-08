@@ -2,10 +2,19 @@
   <div class="card" :class="view">
     <img class="image" :src="item.image" />
     <div class="text__container">
-      <div class="card__title" :title="item.name">{{ item.name }}</div>
-      <div class="wrapper__row">
-        <!-- <div class="card__button" :class="{ in__cart: isInCart }" @click="toCart">{{ isInCart ? 'Удалить' : 'В корзину' }}</div> -->
-        <div class="card__price">{{ Number(item.price).toLocaleString() }} ₽</div>
+      <div
+        class="card-shadow"
+        :style="{
+          background: `url(${item.image}) no-repeat center`,
+          backgroundSize: 'contain'
+        }"
+      ></div>
+      <div class="card-text-wrap">
+        <div class="card__title" :title="item.name">{{ item.name }}</div>
+        <div class="wrapper__row">
+          <!-- <div class="card__button" :class="{ in__cart: isInCart }" @click="toCart">{{ isInCart ? 'Удалить' : 'В корзину' }}</div> -->
+          <div class="card__price">{{ Number(item.price).toLocaleString() }} ₽</div>
+        </div>
       </div>
     </div>
     <router-link :to="`shop/${item.id}`" />
@@ -47,12 +56,35 @@
 }
 
 .text__container {
+  position: relative;
   padding: 20px;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
   font-weight: bold;
   color: #333;
+}
+
+.card-shadow {
+  position: absolute;
+  width: 140%;
+  height: 140%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -55%) scale(1, -1) perspective(700px) rotateX(30deg);
+  z-index: 0;
+  opacity: 0.2;
+}
+
+.card-text-wrap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
 }
 
 .card__title {
