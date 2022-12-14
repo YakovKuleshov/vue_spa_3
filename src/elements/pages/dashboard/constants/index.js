@@ -120,3 +120,36 @@ export const projectHistoryList = [
     status: 'Open'
   }
 ]
+
+export const menuList = [
+  {
+    id: 'main',
+    icon: 'btn1',
+    viewBox: '0 0 37 38'
+  },
+  {
+    id: 'projects',
+    icon: 'btn2',
+    viewBox: '0 0 35 35'
+  },
+  {
+    id: 'peoples',
+    icon: 'btn3',
+    viewBox: '0 0 39 32'
+  },
+  {
+    id: 'status',
+    icon: 'dynamics',
+    viewBox: '0 0 24 24'
+  }
+  // {
+  //   id: 'calendar',
+  //   icon: 'btn4',
+  //   viewBox: '0 0 35 36'
+  // },
+  // {
+  //   id: 'settings',
+  //   icon: 'btn5',
+  //   viewBox: '0 0 35 35'
+  // }
+]

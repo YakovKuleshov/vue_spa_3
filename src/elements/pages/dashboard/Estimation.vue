@@ -100,14 +100,9 @@ export default {
       return arr.join(',')
     }
   },
-  created() {
+  mounted() {
     this.copyList = JSON.parse(JSON.stringify(this.list))
-  },
-  activated() {
     this.animateElems()
-  },
-  deactivated() {
-    this.animateClass = false
   }
 }
 </script>
@@ -181,15 +176,15 @@ export default {
 }
 
 .estimation-labels__item_active:nth-child(2) {
-  animation-delay: 1.3s;
+  animation-delay: 1.2s;
 }
 
 .estimation-labels__item_active:nth-child(3) {
-  animation-delay: 1.6s;
+  animation-delay: 1.4s;
 }
 
 .estimation-labels__item_active:nth-child(4) {
-  animation-delay: 1.9s;
+  animation-delay: 1.6s;
 }
 
 @keyframes bounceIn {

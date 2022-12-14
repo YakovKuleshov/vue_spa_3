@@ -21,7 +21,7 @@ const routes = [
     component: () => import('@/elements/pages/dashboard/Dashboard'),
     meta: {
       title: 'Дэшборд',
-      keepAlive: true
+      keepAlive: false
     }
   },
   {

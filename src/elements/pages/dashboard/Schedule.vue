@@ -1,5 +1,5 @@
 <template>
-  <div class="schedule">
+  <div class="schedule" :class="{ schedule_active: hide }" @click.stop="hide = !hide">
     <div class="schedule__title">Today’s Schedule</div>
     <div class="schedule-item">
       <Avatar image="img1.svg" />
@@ -42,6 +42,11 @@ import Avatar from './Avatar.vue'
 export default {
   components: {
     Avatar
+  },
+  data() {
+    return {
+      hide: false
+    }
   }
 }
 </script>
@@ -50,6 +55,7 @@ export default {
 .schedule {
   padding: 25px 27px;
   box-shadow: var(--shadow);
+  background: var(--bg);
   border-radius: 8px;
 }
 
@@ -94,5 +100,32 @@ export default {
 
 .schedule:deep(.avatar__image) {
   background-size: cover;
+}
+
+@media (max-width: 1700px) {
+  .schedule {
+    position: absolute;
+    top: 850px;
+    right: -295px;
+    z-index: 1;
+    width: 320px;
+    transition: right 0.3s;
+  }
+
+  .schedule_active {
+    right: 0;
+  }
+
+  .schedule:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    width: 5px;
+    height: 50px;
+    border-radius: 5px;
+    background: #07f;
+  }
 }
 </style>

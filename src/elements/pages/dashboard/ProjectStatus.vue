@@ -57,11 +57,8 @@ export default {
       return arr
     }
   },
-  activated() {
+  mounted() {
     this.animateIndicators()
-  },
-  deactivated() {
-    this.clearIndicatorsValues()
   }
 }
 </script>

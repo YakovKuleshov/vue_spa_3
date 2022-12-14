@@ -45,6 +45,20 @@ export default {
   deactivated() {
     this.strValue = 0
     this.indicatorValue = 0
+    console.log(1)
+  },
+  mounted() {
+    if (this.value) {
+      const interval = setInterval(() => {
+        setTimeout(() => {
+          this.strValue++
+          if (this.strValue === this.value) {
+            clearInterval(interval)
+            this.indicatorValue = this.strValue
+          }
+        })
+      }, 10)
+    }
   }
 }
 </script>

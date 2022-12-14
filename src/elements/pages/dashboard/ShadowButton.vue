@@ -17,12 +17,6 @@
   border-radius: 12px;
   font-weight: 600;
   font-size: 24px;
-  transition: box-shadow transform 0.1s;
-}
-
-.shadow-button:active {
-  box-shadow: var(--inset-shadow);
-  color: #1a91fa !important;
-  transform: translate(1px, 1px);
+  transition: transform 0.2s;
 }
 </style>

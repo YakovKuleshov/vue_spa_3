@@ -1,5 +1,5 @@
 <template>
-  <div class="activities">
+  <div class="activities" :class="{ activities_active: hide }" @click.stop="hide = !hide">
     <div class="activities__title">Project Activities</div>
     <div class="user-item">
       <Avatar image="ava17.png" />
@@ -50,6 +50,11 @@ import Avatar from './Avatar.vue'
 export default {
   components: {
     Avatar
+  },
+  data() {
+    return {
+      hide: false
+    }
   }
 }
 </script>
@@ -99,6 +104,32 @@ export default {
 .user-item__time {
   font-size: 10px;
   line-height: 12px;
+}
+
+@media (max-width: 1700px) {
+  .activities {
+    position: absolute;
+    right: -295px;
+    z-index: 1;
+    width: 320px;
+    transition: right 0.3s;
+  }
+
+  .activities_active {
+    right: 0;
+  }
+
+  .activities:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    width: 5px;
+    height: 50px;
+    border-radius: 5px;
+    background: #07f;
+  }
 }
 </style>
 >

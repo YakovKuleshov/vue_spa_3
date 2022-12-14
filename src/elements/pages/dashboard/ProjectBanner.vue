@@ -132,4 +132,10 @@ export default {
 .project-bunner .progress {
   margin: 0 auto;
 }
+
+@media (max-width: 1700px) {
+  .project-bunner {
+    width: auto;
+  }
+}
 </style>

@@ -120,14 +120,9 @@ export default {
       observer.observe(this.$el)
     }
   },
-  created() {
+  mounted() {
     this.renderChart()
-  },
-  activated() {
     this.animateChart()
-  },
-  deactivated() {
-    this.inView = false
   }
 }
 </script>
@@ -137,7 +132,8 @@ export default {
   box-shadow: var(--shadow);
   border-radius: 8px;
   padding: 15px 20px 20px;
-  width: 403px;
+  width: 100%;
+  overflow: hidden;
 }
 
 .views:deep(.x-chart) {
