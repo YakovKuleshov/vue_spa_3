@@ -3,6 +3,10 @@
 	src: url('../fonts/Roboto.woff');
 } */
 
+* {
+	box-sizing: border-box;
+}
+
 body {
 	margin: 0;
 	user-select: none;
@@ -11,6 +15,11 @@ body {
 
 a {
 	text-decoration: none;
+}
+
+html {
+	scrollbar-width: thin;
+  scrollbar-color: #ccc #fff;
 }
 
 html::-webkit-scrollbar {

@@ -42,8 +42,8 @@
 
 .chart__labels__checkbox {
   position: relative;
-  width: 13px;
-  height: 13px;
+  width: 15px;
+  height: 15px;
   margin-right: 8px;
   background: #fff;
   border: 1px solid #cacad3;

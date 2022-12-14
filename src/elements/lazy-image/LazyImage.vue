@@ -1,12 +1,17 @@
 <template>
   <div class="lazy-image">
     <img class="lazy-image_image" :class="{ 'lazy-image_loaded': show }" :src="path" loading="lazy" @load="isLoaded" />
-    <div v-if="!show" class="lazy-image__poster"></div>
+    <Skeleton v-if="!show" />
   </div>
 </template>
 
 <script>
+import Skeleton from '@/elements/skeleton/Skeleton.vue'
+
 export default {
+  components: {
+    Skeleton
+  },
   props: {
     path: {
       type: String,
@@ -47,17 +52,5 @@ export default {
 
 .lazy-image_loaded {
   opacity: 1;
-}
-
-.lazy-image__poster {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 105%;
-  height: 105%;
-  filter: blur(15px);
-  background: url('@/assets/img/blue_wallpaper.jpg') no-repeat center;
-  background-size: cover;
 }
 </style>

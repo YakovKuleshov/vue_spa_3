@@ -11,8 +11,8 @@
       <div class="import__components">
         <div class="content">
           <router-view @onImageClick="imageClick" @onFilmClick="filmClick" v-slot="{ Component }">
-            <keep-alive v-if="$route.meta.keepAlive">
-              <component :is="Component" />
+            <keep-alive>
+              <component v-if="$route.meta.keepAlive" :is="Component" :key="$route.name" />
             </keep-alive>
             <component v-if="!$route.meta.keepAlive" :is="Component" />
           </router-view>

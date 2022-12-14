@@ -91,6 +91,8 @@
   position: relative;
   overflow-x: auto;
   display: flex;
+  scrollbar-width: thin;
+  scrollbar-color: #ccc #fff;
 }
 
 .list__container::-webkit-scrollbar {
@@ -227,7 +229,7 @@
 .names__container__title {
   display: flex;
   align-items: center;
-  height: 34px;
+  height: 36px;
   font-size: 14px;
   color: #333;
   font-weight: 600;
@@ -236,7 +238,7 @@
   padding: 0 8px;
 }
 .name__item {
-  height: 36px;
+  height: 53px;
   border-bottom: 1px solid #ccc;
   padding: 8px 0;
   font-size: 14px;

@@ -42,11 +42,6 @@ export default {
       }, 10)
     }
   },
-  deactivated() {
-    this.strValue = 0
-    this.indicatorValue = 0
-    console.log(1)
-  },
   mounted() {
     if (this.value) {
       const interval = setInterval(() => {
