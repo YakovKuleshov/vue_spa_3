@@ -255,6 +255,7 @@ export default {
   },
   created() {
     document.title = this.headerData.name
+    window.scrollTo({ top: 0 })
   }
 }
 </script>
