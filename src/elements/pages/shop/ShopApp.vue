@@ -57,6 +57,7 @@ import Cart from './elements/Cart'
 import saveScroll from '@/mixins/saveScroll'
 
 export default {
+  mixins: [saveScroll],
   components: {
     ShopToolbar,
     ShopList,
@@ -68,7 +69,6 @@ export default {
       currentPage: 'ShopList'
     }
   },
-  mixins: [saveScroll],
   methods: {
     routing(action) {
       switch (action) {
@@ -93,7 +93,7 @@ export default {
     }
   },
   beforeRouteLeave(to, { name }, next) {
-    localStorage.setItem(`${name}_scroll`, window.scrollY)
+    localStorage.setItem(`${name}_scroll`, 0)
     next()
   }
 }
