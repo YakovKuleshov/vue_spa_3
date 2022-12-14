@@ -50,13 +50,9 @@ export default {
             return /*html*/ `<strong>&nbsp;${this.points[0].key.day}</strong>
                             <br>
                             <strong>Температура днем: ${
-                              this.points[0].key.min > 0
-                                ? '+' + this.points[0].key.min + ' °'
-                                : this.points[0].key.min + ' °'
+                              this.points[0].key.min > 0 ? '+' + this.points[0].key.min + ' °' : this.points[0].key.min + ' °'
                             } / ${
-              this.points[0].key.max > 0
-                ? '+' + this.points[0].key.max + ' °'
-                : this.points[0].key.max + ' °'
+              this.points[0].key.max > 0 ? '+' + this.points[0].key.max + ' °' : this.points[0].key.max + ' °'
             }
                             <br>
                             ${this.points[0].key.conditions}
@@ -107,7 +103,15 @@ export default {
         series: [
           {
             data: [],
-            color: '#00ffe1' // 00c4ff
+            color: '#00ffe1',
+            shadow: {
+              color: '#000',
+              opacity: 0.03,
+              width: 10,
+              offsetX: 15,
+              offsetY: 15,
+              inside: true
+            }
           }
         ]
       },
@@ -126,8 +130,7 @@ export default {
   methods: {
     async fetchWeather() {
       this.loading = true
-      const url =
-        'http://api.openweathermap.org/data/2.5/onecall?lat=55.7522&lon=37.6156&APPID=12594a2144aa9c83dfdc5b5b4f7c3b93'
+      const url = 'http://api.openweathermap.org/data/2.5/onecall?lat=55.7522&lon=37.6156&APPID=12594a2144aa9c83dfdc5b5b4f7c3b93'
       try {
         const responce = await fetch(url)
         const res = await responce.json()

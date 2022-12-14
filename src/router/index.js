@@ -4,7 +4,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 const routes = [
   {
     path: '/:pathMatch(.*)*',
-    redirect: { name: 'news' }
+    redirect: { name: 'dashboard' }
   },
   {
     path: '/admin_panel',
@@ -16,11 +16,11 @@ const routes = [
     }
   },
   {
-    path: '/news',
-    name: 'news',
-    component: () => import('@/elements/pages/page-news'),
+    path: '/dashboard',
+    name: 'dashboard',
+    component: () => import('@/elements/pages/dashboard/Dashboard'),
     meta: {
-      title: 'Новости',
+      title: 'Дэшборд',
       keepAlive: true
     }
   },
@@ -92,7 +92,9 @@ const routes = [
     name: 'product_page',
     component: () => import('@/elements/pages/shop/productPage/ProductPage.vue'),
     redirect: { name: 'product_page_price' },
-    keepAlive: false,
+    meta: {
+      keepAlive: false
+    },
     // beforeEnter: (to, from, next) => {
     //   const pathId = to.path.replace('/shop/', '')
     //   const validId = productTabs.some((tab) => tab.id === pathId)
@@ -143,6 +145,7 @@ const routes = [
     name: 'dynamics',
     component: () => import('@/elements/pages/Dynamics/DynamicsPage'),
     meta: {
+      keepAlive: true,
       title: 'Динамика'
     }
   }

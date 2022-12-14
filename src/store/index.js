@@ -1582,9 +1582,8 @@ export default createStore({
         subList: [],
         menuList: [
           {
-            id: '/news',
-            name: 'Новости',
-            exact: false,
+            id: '/dashboard',
+            name: 'Дэшборд',
             icon: {
               name: 'news',
               viewBox: '0 0 18 20'
@@ -1593,7 +1592,6 @@ export default createStore({
           {
             id: '/gallery',
             name: 'Галерея',
-            exact: false,
             icon: {
               name: 'gallery',
               viewBox: '0 0 24 23'
@@ -1602,7 +1600,6 @@ export default createStore({
           {
             id: '/films',
             name: 'Фильмы',
-            exact: false,
             icon: {
               name: 'films',
               viewBox: '0 0 20 20'
@@ -1611,7 +1608,6 @@ export default createStore({
           {
             id: '/other',
             name: 'Разное',
-            exact: false,
             icon: {
               name: 'other',
               viewBox: '0 0 20 20'
@@ -1620,7 +1616,6 @@ export default createStore({
           {
             id: '/information',
             name: 'Информация',
-            exact: false,
             icon: {
               name: 'information',
               viewBox: '0 0 22 21'
@@ -1629,7 +1624,6 @@ export default createStore({
           {
             id: '/shop',
             name: 'Магазин',
-            exact: false,
             icon: {
               name: 'shop',
               viewBox: '0 0 20 19'
@@ -1638,7 +1632,6 @@ export default createStore({
           {
             id: '/dynamics',
             name: 'Динамика',
-            exact: false,
             icon: {
               name: 'dynamics',
               viewBox: '0 0 24 24'

@@ -1,8 +1,6 @@
 export default {
   activated() {
-    const scroll = localStorage.getItem(
-      `${this.$route.path.replace('/', '')}_scroll`
-    )
+    const scroll = localStorage.getItem(`${this.$route.path.replace('/', '')}_scroll`)
 
     if (scroll) {
       window.scrollTo({ top: +scroll })
