@@ -261,6 +261,7 @@ export default {
 
   .dashboard__statistics:deep(.indicator__item) {
     width: 20%;
+    align-items: center;
   }
 
   .dashboard__statistics {
