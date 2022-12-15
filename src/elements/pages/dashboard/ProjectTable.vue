@@ -5,7 +5,7 @@
       <div class="project-table__head-item">CREATED</div>
       <div class="project-table__head-item">TEAM LEADER</div>
       <div class="project-table__head-item">DUE</div>
-      <div class="project-table__head-item">STATS</div>
+      <div class="project-table__head-item">STATUS</div>
     </div>
     <div v-for="project in projectHistoryList" class="project-table__item" :key="project.id">
       <div
