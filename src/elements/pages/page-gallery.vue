@@ -169,6 +169,7 @@ import saveScroll from '@/mixins/saveScroll'
 import LazyImage from '@/elements/lazy-image/LazyImage.vue'
 
 export default {
+  mixins: [saveScroll],
   components: {
     LazyImage
   },
@@ -183,7 +184,6 @@ export default {
       count: ''
     }
   },
-  mixins: [saveScroll],
   methods: {
     // searchWallpapers(e) {
     //   clearTimeout(this.searchTimeout)
