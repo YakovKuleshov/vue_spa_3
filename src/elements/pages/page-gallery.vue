@@ -10,8 +10,8 @@
         <div v-for="(item, index) in gallery" class="card__container" :key="index" @click="imgClick(item)">
           <lazy-image :path="item.urls.small" ref="galleryItem" />
         </div>
-        <div v-if="!gallery.length && count != 0" class="preloader"></div>
-        <div v-if="count == 0" class="no__items">Ничего не найдено</div>
+        <div v-if="loading" class="preloader"></div>
+        <div v-if="!loading && count === 0" class="no__items">Ничего не найдено</div>
       </div>
     </div>
   </div>
@@ -175,6 +175,7 @@ export default {
   },
   data() {
     return {
+      loading: false,
       gallery: [],
       page: 1,
       // wthatsapp: 'https://api.whatsapp.com/send?phone=79195361459',
@@ -198,13 +199,14 @@ export default {
       this.$emit('onImageClick', item.urls.regular)
     },
     async loadGallery(page, search) {
+      this.loading = true
       try {
         search = !search ? 'wallpapers' : search
         const KEY = 'Vtl0Ncn4yxIMTyFHvk_7xvUvGXolFMPRxbB-q86AhW0'
         const url = `https://api.unsplash.com/search/photos?page=${page}&per_page=20&query=office&client_id=${KEY}&query=${search}`
         const response = await fetch(url)
         const res = await response.json()
-
+        console.log(res)
         if (page === 1) {
           this.gallery = res.results
 
@@ -223,6 +225,8 @@ export default {
         this.flag = true
       } catch (err) {
         console.log(err)
+      } finally {
+        this.loading = false
       }
     },
     gallertScroll() {
