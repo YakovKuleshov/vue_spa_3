@@ -206,7 +206,7 @@ export default {
         const url = `https://api.unsplash.com/search/photos?page=${page}&per_page=20&query=office&client_id=${KEY}&query=${search}`
         const response = await fetch(url)
         const res = await response.json()
-        console.log(res)
+
         if (page === 1) {
           this.gallery = res.results
 
