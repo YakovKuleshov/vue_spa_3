@@ -35,9 +35,9 @@
                 <Estimation />
               </div>
             </div>
-            <Peoples v-if="selectedMenu === 'peoples'" />
+            <Members v-if="selectedMenu === 'members'" />
           </div>
-          <div v-if="selectedMenu !== 'peoples'" class="dashboard__right">
+          <div v-if="selectedMenu !== 'members'" class="dashboard__right">
             <Activities ref="activities" />
             <Schedule ref="schedule" />
           </div>
@@ -60,7 +60,7 @@ import Views from './Views.vue'
 import Estimation from './Estimation.vue'
 import Schedule from './Schedule.vue'
 import ThemeSwitcher from './ThemeSwitcher.vue'
-import Peoples from './Peoples.vue'
+import Members from './Members.vue'
 import saveScroll from '@/mixins/saveScroll'
 
 export default {
@@ -77,7 +77,7 @@ export default {
     Estimation,
     Schedule,
     ThemeSwitcher,
-    Peoples
+    Members
   },
   data() {
     return {

@@ -133,7 +133,7 @@ export const menuList = [
     viewBox: '0 0 35 35'
   },
   {
-    id: 'peoples',
+    id: 'members',
     icon: 'btn3',
     viewBox: '0 0 39 32'
   },

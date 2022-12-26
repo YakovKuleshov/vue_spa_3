@@ -1,8 +1,8 @@
 <template>
-  <div class="people-card">
-    <div class="people-card__img" :style="{ background: `url(${userAvatar}) no-repeat center`, backgroundSize: 'contain' }"></div>
-    <div class="people-card__name">{{ cardData.name }}</div>
-    <div class="people-card__desc">{{ cardData.position }}</div>
+  <div class="member-card">
+    <div class="member-card__img" :style="{ background: `url(${userAvatar}) no-repeat center`, backgroundSize: 'contain' }"></div>
+    <div class="member-card__name">{{ cardData.name }}</div>
+    <div class="member-card__desc">{{ cardData.position }}</div>
   </div>
 </template>
 
@@ -23,18 +23,18 @@ export default {
 </script>
 
 <style scoped>
-.people-card {
+.member-card {
   box-shadow: var(--shadow);
   border-radius: 8px;
   padding: 20px;
 }
 
-.people-card__img {
+.member-card__img {
   height: 150px;
   margin-bottom: 30px;
 }
 
-.people-card__name {
+.member-card__name {
   text-align: center;
   font-weight: bold;
   font-size: 20px;
@@ -42,7 +42,7 @@ export default {
   margin-bottom: 15px;
 }
 
-.people-card__desc {
+.member-card__desc {
   text-align: center;
   letter-spacing: 1px;
   opacity: 0.5;
