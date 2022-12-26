@@ -8,25 +8,29 @@ export const projectsList = [
         id: 1,
         ava: 'ava3',
         name: 'Jhon Smith',
-        position: 'Team leader'
+        position: 'Team leader',
+        pos_id: 'leader'
       },
       {
         id: 2,
         ava: 'ava2',
         name: 'Raima Hasan',
-        position: 'SQA Engineer'
+        position: 'SQA Engineer',
+        pos_id: 'qa'
       },
       {
         id: 3,
         ava: 'ava4',
         name: 'Nisha Anjum',
-        position: 'Developer'
+        position: 'Developer',
+        pos_id: 'dev'
       },
       {
         id: 4,
         ava: 'ava5',
         name: 'Sami Ahmed',
-        position: 'Network Support'
+        position: 'Network Support',
+        pos_id: 'support'
       }
     ]
   },
@@ -36,28 +40,32 @@ export const projectsList = [
     progress: 64,
     users: [
       {
-        id: 1,
+        id: 5,
         ava: 'ava6',
         name: 'Mike Stivens',
-        position: 'Team leader'
+        position: 'Team leader',
+        pos_id: 'leader'
       },
       {
-        id: 2,
+        id: 6,
         ava: 'ava7',
         name: 'Jim morgan',
-        position: 'SQA Engineer'
+        position: 'SQA Engineer',
+        pos_id: 'qa'
       },
       {
-        id: 3,
+        id: 7,
         ava: 'ava8',
         name: 'Sarah Johnson',
-        position: 'Developer'
+        position: 'Developer',
+        pos_id: 'dev'
       },
       {
-        id: 4,
+        id: 8,
         ava: 'ava9',
         name: 'Julia thomson',
-        position: 'Network Support'
+        position: 'Network Support',
+        pos_id: 'support'
       }
     ]
   },
@@ -67,28 +75,32 @@ export const projectsList = [
     progress: 72,
     users: [
       {
-        id: 1,
+        id: 9,
         ava: 'ava10',
         name: 'Willy Tylar',
-        position: 'Team leader'
+        position: 'Team leader',
+        pos_id: 'leader'
       },
       {
-        id: 2,
+        id: 10,
         ava: 'ava11',
         name: 'Arin Hylda',
-        position: 'SQA Engineer'
+        position: 'SQA Engineer',
+        pos_id: 'qa'
       },
       {
-        id: 3,
+        id: 11,
         ava: 'ava12',
         name: 'Antony Wilmer',
-        position: 'Developer'
+        position: 'Developer',
+        pos_id: 'dev'
       },
       {
-        id: 4,
+        id: 12,
         ava: 'ava13',
         name: 'Jordana Valarie',
-        position: 'Network Support'
+        position: 'Network Support',
+        pos_id: 'support'
       }
     ]
   }
@@ -152,4 +164,23 @@ export const menuList = [
   //   icon: 'btn5',
   //   viewBox: '0 0 35 35'
   // }
+]
+
+export const positions = [
+  {
+    id: 'leader',
+    name: 'Team leaders'
+  },
+  {
+    id: 'dev',
+    name: 'Developers'
+  },
+  {
+    id: 'qa',
+    name: 'QA Engineers'
+  },
+  {
+    id: 'support',
+    name: 'Support'
+  }
 ]
