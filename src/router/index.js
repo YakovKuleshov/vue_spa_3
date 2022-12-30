@@ -10,6 +10,13 @@ const routes = [
     path: '/admin_panel',
     name: 'admin_panel',
     component: () => import('@/elements/pages/AdminPanel'),
+    beforeEnter(to, from, next) {
+      if (!localStorage.getItem('xxx')) {
+        next('/dashboard')
+      } else {
+        next()
+      }
+    },
     meta: {
       title: 'Админ панель',
       keepAlive: true

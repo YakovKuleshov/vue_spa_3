@@ -2,13 +2,7 @@
   <div class="admin__panel">
     <h2>Админ панель</h2>
     <div class="wrapper__row">
-      <router-link
-        class="link"
-        v-for="link in menuList"
-        :to="link.id"
-        :key="link.id"
-        >{{ link.name }}</router-link
-      >
+      <router-link class="link" v-for="link in menuList" :to="link.id" :key="link.id">{{ link.name }}</router-link>
     </div>
     <div class="section">
       <div class="label input__label">Заголовок</div>
@@ -22,10 +16,7 @@
       <div class="color__title__wrapper">
         <div class="label">Цвет заголовка</div>
         <label class="color__label">
-          <div
-            class="example"
-            :style="{ backgroundColor: mainSettings.title_color }"
-          >
+          <div class="example" :style="{ backgroundColor: mainSettings.title_color }">
             <input
               class="color__input"
               type="color"
@@ -83,7 +74,7 @@
 }
 
 .link:after {
-  content: "|";
+  content: '|';
   padding-left: 10px;
   color: #ccc;
 }
@@ -174,7 +165,7 @@
   animation: rotateSpiner 0.5s infinite linear;
 }
 
-input[type="color"] {
+input[type='color'] {
   position: absolute;
   visibility: hidden;
 }
@@ -187,37 +178,28 @@ input[type="color"] {
 </style>
 
 <script>
-import { mapState, mapMutations } from "vuex";
+import { mapState, mapMutations } from 'vuex'
 export default {
   data() {
     return {
       isSpiner: false
-    };
-  },
-  beforeRouteEnter(to, from, next) {
-    if (!localStorage.getItem("xxx")) {
-      next("/news");
-    } else {
-      next();
     }
   },
   computed: {
-    ...mapState("mainStore", ["mainSettings", "menuList"]),
+    ...mapState('mainStore', ['mainSettings', 'menuList']),
     noChanges() {
-      return (
-        localStorage.getItem("settings") === JSON.stringify(this.mainSettings)
-      );
+      return localStorage.getItem('settings') === JSON.stringify(this.mainSettings)
     }
   },
   methods: {
-    ...mapMutations("mainStore", ["changeTitle", "setTitleColor"]),
+    ...mapMutations('mainStore', ['changeTitle', 'setTitleColor']),
     saveSettings() {
-      this.isSpiner = true;
+      this.isSpiner = true
       setTimeout(() => {
-        localStorage.setItem("settings", JSON.stringify(this.mainSettings));
-        this.isSpiner = false;
-      }, 1000);
+        localStorage.setItem('settings', JSON.stringify(this.mainSettings))
+        this.isSpiner = false
+      }, 1000)
     }
   }
-};
+}
 </script>
