@@ -43,8 +43,6 @@ export default {
 
 <style scoped>
 .project-bunner {
-  width: 400px;
-  height: 400px;
   background: linear-gradient(138.69deg, #1d5ba9 0%, #0a325a 100%);
   box-shadow: 14px 14px 40px rgba(16, 16, 18, 0.75), -7px -7px 30px #262e32;
   border-radius: 8px;
@@ -133,9 +131,16 @@ export default {
   margin: 0 auto;
 }
 
-@media (max-width: 1700px) {
-  .project-bunner {
-    width: auto;
+@media (max-width: 1400px) {
+  .members-list {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 400px) {
+  .members-list__item {
+    width: calc(100% / 2 - 10px);
   }
 }
 </style>

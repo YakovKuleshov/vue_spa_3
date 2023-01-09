@@ -68,7 +68,6 @@ export default {
   box-shadow: var(--shadow);
   border-radius: 8px;
   padding: 15px 43px 43px;
-  max-width: 497px;
 }
 
 .status__row {
@@ -110,5 +109,25 @@ export default {
   font-size: 12px;
   line-height: 15px;
   text-align: center;
+}
+
+@media (max-width: 604px) {
+  .status .progress-bar {
+    width: 100%;
+  }
+
+  .status .indicator__item {
+    width: calc(100% / 16 - 9px) !important;
+  }
+}
+
+@media (max-width: 576px) {
+  .status {
+    padding: 15px 20px 43px;
+  }
+
+  .status .progress-bar {
+    width: 100%;
+  }
 }
 </style>

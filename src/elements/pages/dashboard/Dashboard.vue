@@ -243,20 +243,28 @@ export default {
 }
 
 .dashboard__statistics_wide:deep(.estimation-labels) {
-  grid-template-columns: repeat(4, 1fr) !important;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+@media (max-width: 1600px) {
+  .dashboard__row {
+    padding-right: 0;
+  }
+
+  .dashboard__center {
+    margin: 0 auto;
+    padding: 0 40px 40px;
+    width: 100%;
+  }
 }
 
 @media (max-width: 1400px) {
-  .dashboard__projects {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .dashboard__statistics {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
   .dashboard__statistics .status {
     max-width: 100%;
+  }
+
+  .dashboard__statistics:deep(.estimation-labels) {
+    grid-template-columns: repeat(4, 1fr);
   }
 
   .dashboard__statistics:deep(.indicator__item) {
@@ -265,17 +273,67 @@ export default {
   }
 
   .dashboard__statistics {
-    grid-template-columns: 1fr;
-  }
-
-  .dashboard__statistics:deep(.estimation-labels) {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: 100%;
   }
 }
 
 @media (max-width: 992px) {
   .dashboard__projects {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .dashboard__projects {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 576px) {
+  .dashboard__statistics_wide:deep(.estimation-labels) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .dashboard__statistics:deep(.estimation-labels) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .dashboard__header {
+    padding: 0 20px;
+    height: 80px;
+  }
+
+  .dashboard__user__name {
+    height: auto;
+    padding: 10px;
+    font-size: 17px;
+    line-height: normal;
+  }
+
+  .dashboard__user .avatar {
+    width: 50px;
+    height: 50px;
+  }
+
+  .dashboard__user:deep(.avatar__image) {
+    width: 45px;
+    height: 45px;
+    background-size: 100% 100%;
+  }
+
+  .section:nth-child(3) {
+    margin: 0 -15px;
+  }
+}
+
+@media (max-width: 380px) {
+  .dashboard__statistics:deep(.estimation-labels) {
+    grid-template-columns: 1fr;
+    grid-gap: 15px;
+  }
+
+  .estimation-labels__name {
+    font-size: 11px;
   }
 }
 </style>

@@ -1,21 +1,23 @@
 <template>
   <div class="project-table">
-    <div class="project-table__head">
-      <div class="project-table__head-item">RECENT PROJECTS</div>
-      <div class="project-table__head-item">CREATED</div>
-      <div class="project-table__head-item">TEAM LEADER</div>
-      <div class="project-table__head-item">DUE</div>
-      <div class="project-table__head-item">STATUS</div>
-    </div>
-    <div v-for="project in projectHistoryList" class="project-table__item" :key="project.id">
-      <div
-        class="project-table__cell project-table__cell_image"
-        :style="{ backgroundImage: `url(${getProjectName(project.name)})` }"
-      />
-      <div class="project-table__cell">{{ project.created }}</div>
-      <div class="project-table__cell">{{ project.team_leader }}</div>
-      <div class="project-table__cell">{{ project.execution_term }}</div>
-      <div class="project-table__cell">{{ project.status }}</div>
+    <div class="project-table__content">
+      <div class="project-table__head">
+        <div class="project-table__head-item">RECENT PROJECTS</div>
+        <div class="project-table__head-item">CREATED</div>
+        <div class="project-table__head-item">TEAM LEADER</div>
+        <div class="project-table__head-item">DUE</div>
+        <div class="project-table__head-item">STATUS</div>
+      </div>
+      <div v-for="project in projectHistoryList" class="project-table__item" :key="project.id">
+        <div
+          class="project-table__cell project-table__cell_image"
+          :style="{ backgroundImage: `url(${getProjectName(project.name)})` }"
+        />
+        <div class="project-table__cell">{{ project.created }}</div>
+        <div class="project-table__cell">{{ project.team_leader }}</div>
+        <div class="project-table__cell">{{ project.execution_term }}</div>
+        <div class="project-table__cell">{{ project.status }}</div>
+      </div>
     </div>
   </div>
 </template>
@@ -78,5 +80,26 @@ export default {
 
 .project-table__cell {
   padding: 0 5px;
+}
+
+@media (max-width: 992px) {
+  .project-table {
+    overflow-x: auto;
+    padding: 0 30px 20px;
+  }
+
+  .project-table__content {
+    min-width: 900px;
+  }
+
+  .project-table::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  .project-table::-webkit-scrollbar-thumb {
+    box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.5);
+    background: #1d5ba9;
+    border-radius: 20px;
+  }
 }
 </style>

@@ -33,6 +33,7 @@ export default {
   align-items: center;
   justify-content: space-between;
   cursor: pointer;
+  flex-shrink: 0;
 }
 
 .theme-switcher:before {
