@@ -28,7 +28,7 @@
               :class="{ sort__icon_asc: sortOptions.direction === '0' }"
             >
               <svg width="16" height="16">
-                <use xlink:href="@/assets/arrow-down.svg#arrow-down"></use>
+                <use xlink:href="@/assets/img/arrow-down.svg#arrow-down"></use>
               </svg>
             </div>
           </div>

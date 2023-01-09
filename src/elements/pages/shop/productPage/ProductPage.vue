@@ -1,7 +1,11 @@
 <template>
-  <div class="product-page">
+  <div class="product-page" :class="{ 'product-page_nodata': !headerData.name }">
     <h2 class="page__title" :title="headerData.name">{{ headerData.name }}</h2>
     <div class="product-page__content">
+      <span class="product-page__back" @click="toPrevPage">
+        <p-icon name="chevron-left" viewBox="0 0 24 24" />
+        Назад
+      </span>
       <div class="header">
         <x-img :src="imageUrl" />
         <div class="header__info">
@@ -96,27 +100,34 @@
           :text="`Упущенная выручка на текущий момент`"
         />
       </div>
-      <div class="tabs product__page__tabs">
-        <x-tabs :tabs="tabs" :selected="$route.meta.tab" @change="selectTab" />
-      </div>
-      <div class="product__page__hint">
-        <page-hint :text="hintText"></page-hint>
-      </div>
-      <div class="grid__row">
-        <div class="row__item">
-          <div class="label">Выбрать период</div>
-          <select class="select" v-model="selectedPeriod">
-            <option v-for="item in periodsList" :value="item" :key="item.id">
-              {{ item.name }}
-            </option>
-          </select>
+      <template v-if="headerData.name">
+        <div class="tabs product__page__tabs">
+          <x-tabs :tabs="tabs" :selected="$route.meta.tab" @change="selectTab" />
         </div>
+        <div class="product__page__hint">
+          <page-hint :text="hintText"></page-hint>
+        </div>
+        <div class="grid__row">
+          <div class="row__item">
+            <div class="label">Выбрать период</div>
+            <select class="select" v-model="selectedPeriod">
+              <option v-for="item in periodsList" :value="item" :key="item.id">
+                {{ item.name }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <router-view v-slot="{ Component }">
+          <keep-alive>
+            <component :is="Component" :filters="filters" />
+          </keep-alive>
+        </router-view>
+      </template>
+      <div v-else class="product-page__plug">
+        <div class="product-page__plug-icon">(:</div>
+        <div class="product-page__plug-text">Похоже, что вы изменили id в адресе страницы</div>
+        <button class="product-page__button" @click="toPrevPage">На главную</button>
       </div>
-      <router-view v-slot="{ Component }">
-        <keep-alive>
-          <component :is="Component" :filters="filters" />
-        </keep-alive>
-      </router-view>
     </div>
   </div>
 </template>
@@ -233,19 +244,14 @@ export default {
           return '7 дней'
         case 'fourteen':
           return '14 дней'
-        // case 'THIRTY':
-        //   return '30 дней'
-        // case 'NINETY':
-        //   return '90 дней'
-        // case 'OTHER':
-        //   return `${Intl.DateTimeFormat('ru').format(this.filters.period?.start)} - ${Intl.DateTimeFormat('ru').format(
-        //     this.filters.period?.end
-        //   )}`
       }
       return ''
     }
   },
   methods: {
+    toPrevPage() {
+      this.$router.push('/shop')
+    },
     selectTab(tabId) {
       this.$router.push(tabId)
     },
@@ -254,7 +260,7 @@ export default {
     }
   },
   created() {
-    document.title = this.headerData.name
+    document.title = this.headerData.name || 'Магазин'
     window.scrollTo({ top: 0 })
   }
 }
@@ -264,6 +270,10 @@ export default {
 .product-page {
   max-width: 1300px;
   margin: 0 auto;
+}
+
+.product-page_nodata:deep(.info-banner .info-icon) {
+  pointer-events: none;
 }
 
 .page__title {
@@ -280,6 +290,22 @@ export default {
   padding: 24px;
   border-radius: 10px;
   box-shadow: 10px 21px 43px rgb(0 0 0 / 30%);
+}
+
+.product-page__back {
+  cursor: pointer;
+  color: #07f;
+  margin-bottom: 20px;
+  display: inline-flex;
+  align-items: center;
+  font-size: 18px;
+  letter-spacing: 1px;
+}
+
+.product-page__back .p-icon {
+  width: 23px;
+  height: 23px;
+  margin-right: 5px;
 }
 
 .header {
@@ -524,6 +550,43 @@ export default {
     background: #b6b6b6;
     border-radius: 20px;
   }
+}
+
+.product-page__plug {
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #a0a0a0;
+  font-size: 17px;
+  letter-spacing: 0.5px;
+}
+
+.product-page__plug-icon {
+  font-size: 50px;
+  margin-bottom: 20px;
+}
+
+.product-page__plug-text {
+  margin-bottom: 10px;
+  text-align: center;
+  line-height: 26px;
+}
+
+.product-page__button {
+  width: 150px;
+  height: 40px;
+  box-shadow: 1px 1px 4px rgb(0 0 0 / 50%);
+  background: #07f;
+  border-radius: 5px;
+  text-align: center;
+  line-height: 40px;
+  color: #fff;
+  letter-spacing: 1px;
+  cursor: pointer;
+  border: none;
+  font-size: 16px;
 }
 
 .product__page__hint {
