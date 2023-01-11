@@ -4,7 +4,7 @@
       <div class="logo">
         <div class="logo__icon"></div>
       </div>
-      <weather-now @click="$emit('showDetail')" />
+      <weather-now @click="$emit('showDetail')" xxx="1" />
     </div>
     <Navigation />
     <gamburger-menu @click="$emit('showNavModal')" />
@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import WeatherNow from '@/elements/weather-now/weather-now'
+import WeatherNow from '@/elements/weather-now/WeatherNow.vue'
 import Navigation from '@/elements/main-navigation/Navigation.vue'
 import GamburgerMenu from '@/elements/gamburger-menu/GamburgerMenu.vue'
 

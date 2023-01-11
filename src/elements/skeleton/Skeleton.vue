@@ -35,21 +35,6 @@
   height: 100%;
   border-radius: 50%;
   background: #e4e4e4;
-  margin: 0 auto;
-  overflow: hidden;
-}
-
-.skeleton__img:after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100px;
-  width: 30%;
-  height: 100%;
-  background: #fff;
-  filter: blur(20px);
-  transform: rotateZ(30deg);
-  animation: animateBlick 0.5s infinite linear;
 }
 
 .skeleton__item {
@@ -59,24 +44,5 @@
   background: #e4e4e4;
   margin-top: 10px;
   overflow: hidden;
-}
-
-.skeleton__item:after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: -100px;
-  width: 20px;
-  height: 50px;
-  background: #ffffff;
-  filter: blur(20px);
-  transform: translateY(-50%) rotateZ(10deg);
-  animation: animateBlick 0.5s infinite linear;
-}
-
-@keyframes animateBlick {
-  100% {
-    left: 110%;
-  }
 }
 </style>

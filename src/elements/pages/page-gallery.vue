@@ -8,9 +8,9 @@
       </div> -->
       <div class="container" ref="container">
         <div v-for="(item, index) in gallery" class="card__container" :key="index" @click="imgClick(item)">
-          <lazy-image :path="item.urls.small" ref="galleryItem" />
+          <lazy-image :path="item.urls.small" />
         </div>
-        <div v-if="loading" class="preloader"></div>
+        <Preloader v-if="loading" />
         <div v-if="!loading && count === 0" class="no__items">Ничего не найдено</div>
       </div>
     </div>
@@ -90,28 +90,6 @@ input::placeholder {
   min-height: 200px;
 }
 
-.preloader {
-  position: absolute;
-  margin: 0 auto;
-  top: 50%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 30px;
-  height: 30px;
-  border: 4px solid #0863ef;
-  border-radius: 50%;
-  border-right-color: transparent;
-  box-sizing: border-box;
-  animation: rotatePreloader 0.5s linear infinite;
-  display: block;
-}
-
-@keyframes rotatePreloader {
-  100% {
-    transform: translateX(-50%) rotateZ(360deg);
-  }
-}
-
 .no__items {
   font-size: 35px;
   position: absolute;
@@ -167,11 +145,13 @@ input::placeholder {
 <script>
 import saveScroll from '@/mixins/saveScroll'
 import LazyImage from '@/elements/lazy-image/LazyImage.vue'
+import Preloader from '@/elements/preloader/Preloader.vue'
 
 export default {
   mixins: [saveScroll],
   components: {
-    LazyImage
+    LazyImage,
+    Preloader
   },
   data() {
     return {

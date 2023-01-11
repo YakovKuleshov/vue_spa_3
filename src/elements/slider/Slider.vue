@@ -1,6 +1,7 @@
 <template>
   <div id="slider">
     <div class="image__conrainer">
+      <Skeleton />
       <div
         class="image"
         :style="{
@@ -21,13 +22,7 @@
           ref="dotItem"
           @click="chooseSlide(index)"
         >
-          <div
-            class="dot__image"
-            :style="{
-              background: `url(${getImage(item)}) no-repeat center`,
-              backgroundSize: 'cover'
-            }"
-          ></div>
+          <lazy-image class="dot__image" :path="getImage(item)" />
         </div>
       </div>
     </div>
@@ -41,9 +36,26 @@
   margin: 0 auto;
 }
 
+#slider .skeleton {
+  overflow: hidden;
+}
+
+#slider .skeleton__wrap {
+  width: 25%;
+  padding-top: 25%;
+}
+
+#slider .skeleton__item {
+  margin-top: 4%;
+}
+
 .image__conrainer {
+  position: relative;
   margin: 0 auto 30px;
   max-width: 800px;
+  border: 4px solid #fff;
+  box-shadow: 12px 20px 33px rgba(0, 0, 0, 0.7);
+  background: #fff;
 }
 
 .image {
@@ -53,7 +65,6 @@
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-  box-shadow: 12px 20px 33px rgba(0, 0, 0, 0.7);
 }
 
 .buttons {
@@ -112,7 +123,8 @@
   position: relative;
   width: 100%;
   height: 100%;
-  transition: 0.3s;
+  transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+  border: 3px solid #fff;
   box-shadow: 8px 10px 15px rgba(0, 0, 0, 0.8);
 }
 
@@ -121,14 +133,22 @@
 }
 
 .active .dot__image {
-  box-shadow: 0 0 0 rgba(0, 0, 0, 0.8), 0 0 0 3px #07f inset;
+  box-shadow: 0 0 0 rgb(0 0 0 / 80%);
   box-sizing: border-box;
+  border-color: #07f;
   transform: translate(2px, 2px);
 }
 </style>
 
 <script>
+import LazyImage from '@/elements/lazy-image/LazyImage.vue'
+import Skeleton from '@/elements/skeleton/Skeleton.vue'
+
 export default {
+  components: {
+    LazyImage,
+    Skeleton
+  },
   data() {
     return {
       current: 0,

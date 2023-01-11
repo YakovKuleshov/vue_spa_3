@@ -1,16 +1,7 @@
 <template>
-  <div>
-    <div class="overlay" @click="clearImgUrl" @mousemove="resetCoords">
-      <div class="content" :style="{ transform: `rotateX(${x}deg) rotateY(${y}deg)` }" @mousemove="rotateContent" ref="content">
-        <div
-          class="image"
-          :style="{
-            background: `url('${url}') no-repeat center`,
-            backgroundSize: 'cover'
-          }"
-          @click="changeMainBg(url)"
-        />
-      </div>
+  <div class="overlay" @click="clearImgUrl" @mousemove="resetCoords">
+    <div class="content" :style="{ transform: `rotateX(${x}deg) rotateY(${y}deg)` }" @mousemove="rotateContent" ref="content">
+      <lazy-image class="image" :path="url" @click="changeMainBg(url)" />
     </div>
   </div>
 </template>
@@ -57,13 +48,19 @@
   height: 73%;
   width: 75%;
   box-shadow: 10px 10px 13px rgba(0, 0, 0, 0.6);
+  overflow: visible;
 }
 </style>
 
 <script>
 import { mapMutations } from 'vuex'
+import LazyImage from '@/elements/lazy-image/LazyImage.vue'
+
 export default {
   props: ['url'],
+  components: {
+    LazyImage
+  },
   data() {
     return {
       x: 0,
@@ -77,10 +74,12 @@ export default {
     },
     rotateContent(e) {
       let block = this.$refs.content
-      let height = block.offsetHeight / 2
-      let width = block.offsetWidth / 2
-      this.x = -(e.clientY - block.getBoundingClientRect().top - height) / 50
-      this.y = (e.clientX - block.getBoundingClientRect().left - width) / 50
+      if (block) {
+        let height = block.offsetHeight / 2
+        let width = block.offsetWidth / 2
+        this.x = -(e.clientY - block.getBoundingClientRect().top - height) / 50
+        this.y = (e.clientX - block.getBoundingClientRect().left - width) / 50
+      }
     },
     resetCoords(e) {
       if (e.target.classList.contains('overlay')) {

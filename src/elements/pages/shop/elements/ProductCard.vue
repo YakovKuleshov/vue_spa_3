@@ -1,6 +1,9 @@
 <template>
   <div class="card" :class="view">
-    <img class="image" :src="item.image" />
+    <div class="card__image">
+      <img class="image" :src="item.image" @load="onLoad" />
+      <x-loader v-if="!loaded" color="gray" class="x-img__loader" />
+    </div>
     <div class="text__container">
       <div
         class="card-shadow"
@@ -8,7 +11,7 @@
           background: `url(${item.image}) no-repeat center`,
           backgroundSize: 'contain'
         }"
-      ></div>
+      />
       <div class="card-text-wrap">
         <div class="card__title" :title="item.name">{{ item.name }}</div>
         <div class="wrapper__row">
@@ -37,6 +40,13 @@
   overflow: hidden;
 }
 
+.card:deep(.lds-spinner div:after) {
+  top: 14px;
+  height: 13px;
+  width: 3px;
+  background: #07f;
+}
+
 .card a {
   position: absolute;
   top: 0;
@@ -49,9 +59,14 @@
   background: rgba(0, 0, 0, 0.1);
 }
 
-.image {
+.card__image {
+  position: relative;
   height: 60%;
+}
+
+.image {
   width: 100%;
+  height: 100%;
   object-fit: contain;
 }
 
@@ -173,19 +188,26 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex'
+import XLoader from '@/elements/pages/shop/productPage/XLoader.vue'
+
 export default {
   props: ['item', 'view'],
+  components: {
+    XLoader
+  },
   data() {
-    return {}
+    return {
+      loaded: false
+    }
   },
   methods: {
     ...mapMutations('moduleStore', ['addToCart', 'removeFromCart']),
     toCart() {
       this.isInCart ? this.removeFromCart(this.item.id) : this.addToCart(this.item)
+    },
+    onLoad() {
+      this.loaded = true
     }
-    // getImage(item) {
-    //   return require(`@/assets/${item.image}`)
-    // }
   },
   computed: {
     ...mapState('moduleStore', ['cartList']),

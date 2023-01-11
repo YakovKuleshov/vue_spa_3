@@ -1,12 +1,17 @@
 <template>
   <div class="weather-chart">
     <highcharts :options="chartOptions" />
-    <div v-if="loading" class="weather-chart__preloader"></div>
+    <Preloader v-if="loading" />
   </div>
 </template>
 
 <script>
+import Preloader from '@/elements/preloader/Preloader.vue'
+
 export default {
+  components: {
+    Preloader
+  },
   data() {
     return {
       loading: false,
@@ -172,37 +177,11 @@ export default {
   position: relative;
 }
 
+.weather-chart .preloader {
+  position: absolute;
+}
+
 .weather-chart .highcharts-credits {
   display: none;
-}
-
-.weather-chart__preloader {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  /* background: rgba(255, 255, 255, 0.7); */
-}
-
-.weather-chart__preloader:after {
-  content: '';
-  width: 30px;
-  height: 30px;
-  border: 4px solid #0863ef;
-  border-radius: 50%;
-  border-right-color: transparent;
-  box-sizing: border-box;
-  animation: rotatePreloader 0.5s linear infinite;
-  color: #6c879c;
-}
-
-@keyframes rotatePreloader {
-  100% {
-    transform: rotateZ(360deg);
-  }
 }
 </style>

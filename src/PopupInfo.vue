@@ -2,15 +2,12 @@
   <div class="overlay" @click="clearData">
     <div class="content" @click.stop>
       <div class="content__close" @click="clearData"></div>
-      <div class="vide_img_container">
-        <template v-if="!trailer">
-          <div class="image" :style="{ background: 'url(' + filmData.url + ') no-repeat center', backgroundSize: 'cover' }"></div>
-        </template>
-        <template v-else>
-          <div class="video">
-            <video autoplay controls controlslist="nodownload" :src="filmData.trailer"></video>
-          </div>
-        </template>
+      <div class="video_img_container">
+        <x-loader v-if="!loaded" color="gray" class="x-img__loader" />
+        <img v-show="!trailer" class="image" :class="{ hidden: !loaded }" :src="filmData.url" @load="onLoad" />
+        <div v-show="trailer" class="video">
+          <video controls controlslist="nodownload" :src="filmData.trailer" ref="video" />
+        </div>
         <div class="btn" @click="switchTrailer">Треллер</div>
       </div>
       <div class="text__container">
@@ -105,10 +102,16 @@
   transform: translateY(-50%) rotate(45deg);
 }
 
-.vide_img_container {
+.video_img_container {
   position: relative;
-  flex-grow: 1;
   min-height: 180px;
+  height: 1px;
+  flex-grow: 1;
+}
+
+.video_img_container:deep(.lds-spinner div:after) {
+  top: 8px;
+  height: 16px;
 }
 
 .video {
@@ -127,7 +130,13 @@ video {
 }
 
 .image {
+  width: 100%;
   height: 100%;
+  object-fit: cover;
+}
+
+.hidden {
+  opacity: 0;
 }
 
 .text__container {
@@ -248,11 +257,17 @@ video {
 </style>
 
 <script>
+import XLoader from '@/elements/pages/shop/productPage/XLoader.vue'
+
 export default {
   props: ['filmData'],
+  components: {
+    XLoader
+  },
   data() {
     return {
       trailer: false,
+      loaded: false,
       actorsList: [],
       directorsList: [],
       getComma(actors, index) {
@@ -282,7 +297,19 @@ export default {
       this.$emit('clearData')
     },
     switchTrailer() {
+      const video = this.$refs.video
       this.trailer = !this.trailer
+
+      if (video) {
+        if (this.trailer) {
+          this.$refs.video.play()
+        } else {
+          this.$refs.video.pause()
+        }
+      }
+    },
+    onLoad() {
+      this.loaded = true
     }
   },
   mounted() {
@@ -302,6 +329,9 @@ export default {
   },
   beforeUnmount() {
     document.body.removeAttribute('style')
+
+    const video = this.$refs.video
+    if (video) video.pause()
   }
 }
 </script>

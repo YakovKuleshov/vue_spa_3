@@ -5,14 +5,9 @@
       <div class="container" ref="filmsContainer">
         <template v-for="(item, index) in list" :key="index">
           <div class="list__item" @click="showInfo(item)">
-            <div
-              class="item__image"
-              :style="{
-                backgroundImage: `url('${getImageUrl(
-                  item.element.basicCovers.items
-                )}')`
-              }"
-            ></div>
+            <div class="item__image">
+              <lazy-image :path="getImageUrl(item.element.basicCovers.items)" />
+            </div>
             <div class="text__container">
               <div class="title__text">{{ item.element.name }}</div>
               <div class="public__date">{{ item.Year }}</div>
@@ -29,10 +24,7 @@
           </div>
         </template>
       </div>
-      <div v-if="preloader" class="loading">
-        <div class="preloader"></div>
-        <div class="loading__text">Загрузка...</div>
-      </div>
+      <Preloader v-if="preloader" />
     </div>
   </div>
 </template>
@@ -53,30 +45,6 @@
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 1;
-}
-
-.loading__text {
-  margin: 5px 0 0 10px;
-  color: #0863ef;
-  font-size: 15px;
-  font-weight: bold;
-}
-
-.preloader {
-  margin: 0 auto;
-  width: 30px;
-  height: 30px;
-  border: 4px solid #0863ef;
-  border-radius: 50%;
-  border-right-color: transparent;
-  box-sizing: border-box;
-  animation: rotatePreloader 0.5s linear infinite;
-}
-
-@keyframes rotatePreloader {
-  100% {
-    transform: rotateZ(360deg);
-  }
 }
 
 .filters {
@@ -123,10 +91,6 @@
 
 .item__image {
   flex-grow: 1;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-  background-color: #ccc;
 }
 
 .text__container {
@@ -200,8 +164,15 @@
 
 <script>
 import saveScroll from '@/mixins/saveScroll'
+import LazyImage from '@/elements/lazy-image/LazyImage.vue'
+import Preloader from '@/elements/preloader/Preloader.vue'
 
 export default {
+  mixins: [saveScroll],
+  components: {
+    LazyImage,
+    Preloader
+  },
   data() {
     return {
       preloader: false,
@@ -225,24 +196,20 @@ export default {
       // },
     }
   },
-  mixins: [saveScroll],
-  watch: {},
   methods: {
     showInfo(item) {
       this.getItemInfo(item)
     },
     scrollContent() {
       if (!this.flag) return false
-      if (
-        window.scrollY >=
-        document.body.scrollHeight - window.innerHeight - 200
-      ) {
+      if (window.scrollY >= document.body.scrollHeight - window.innerHeight - 200) {
         this.page += 8
         this.load(this.page)
         this.flag = false
       }
     },
     getItemInfo(item) {
+      this.preloader = true
       fetch(
         `https://ctx.playfamily.ru/screenapi/v1/noauth/moviecard/web/1?elementAlias=${item.element.alias}&elementType=MOVIE`,
         {}
@@ -258,12 +225,15 @@ export default {
             rating: res.element.kinopoiskRating,
             filmName: res.element.alias,
             type: res.element.type,
-            year: new Date(res.element.worldReleaseDate).toLocaleString(
-              {},
-              { year: 'numeric' }
-            )
+            year: new Date(res.element.worldReleaseDate).toLocaleString({}, { year: 'numeric' })
           }
           this.$emit('onFilmClick', filmData)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+        .finally((v) => {
+          this.preloader = false
         })
     },
     load(page, first_load) {
@@ -278,10 +248,7 @@ export default {
           if (this.hasItems(res.element.collectionItems.items)) {
             if (first_load) {
               setTimeout(() => {
-                if (
-                  this.$refs.filmsContainer.getBoundingClientRect().bottom <
-                  window.innerHeight
-                ) {
+                if (this.$refs.filmsContainer.getBoundingClientRect().bottom < window.innerHeight) {
                   this.page += 20
                   this.load(this.page, first_load)
                 }

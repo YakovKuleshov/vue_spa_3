@@ -8,13 +8,10 @@
       <div
         v-for="item in images"
         class="image"
-        :style="{
-          background: `url(${getImage(item)})`,
-          backgroundSize: 'cover',
-          transform: `rotateY(calc(${item.id} * 45deg)) translateZ(400px)`
-        }"
+        :style="{ transform: `rotateY(calc(${item.id} * 45deg)) translateZ(400px)` }"
         :key="item.id"
       >
+        <lazy-image :path="getImage(item)" />
         <div class="image image__clone" :style="{ background: `url(${getImage(item)})`, backgroundSize: 'cover' }"></div>
       </div>
     </div>
@@ -81,6 +78,10 @@
   /* -webkit-box-reflect: below 0 linear-gradient(transparent 0%, #fff 150%); */
 }
 
+.image .lazy-image {
+  border-radius: 10px;
+}
+
 .image__clone {
   position: absolute;
   left: 50%;
@@ -92,7 +93,12 @@
 }
 </style>
 <script>
+import LazyImage from '@/elements/lazy-image/LazyImage.vue'
+
 export default {
+  components: {
+    LazyImage
+  },
   data() {
     return {
       images: [

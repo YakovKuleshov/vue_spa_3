@@ -19,15 +19,17 @@
         </div>
       </div>
     </section>
-    <keep-alive>
-      <weather-popup v-if="showDetailWeather" @close="showDetailWeather = false" />
-    </keep-alive>
-    <template v-if="filmData">
-      <popup-info :filmData="filmData" @clearData="clearData"></popup-info>
-    </template>
-    <template v-if="galleryImgUrl">
-      <image-popup :url="galleryImgUrl" @clearImgUrl="clearImgUrl" />
-    </template>
+    <transition name="fade">
+      <keep-alive>
+        <weather-popup v-if="showDetailWeather" @close="showDetailWeather = false" />
+      </keep-alive>
+    </transition>
+    <transition name="fade">
+      <popup-info v-if="filmData" :filmData="filmData" @clearData="clearData"></popup-info>
+    </transition>
+    <transition name="fade">
+      <image-popup v-if="galleryImgUrl" :url="galleryImgUrl" @clearImgUrl="clearImgUrl" />
+    </transition>
     <transition name="fade">
       <mobile-popup v-if="showNav" @close="showNav = false" />
     </transition>
@@ -56,7 +58,7 @@
 import Range from './elements/range/Range'
 import Colorpicker from './elements/colorpicker/Colorpicker'
 import resizeBlock from './elements/resize-block/Resize-block'
-import popupInfo from './popup-info'
+import PopupInfo from './PopupInfo.vue'
 import MobilePopup from './MobilePopup.vue'
 import WeatherPopup from './WeatherPopup'
 import Clock from './elements/clock/Clock'
@@ -68,7 +70,7 @@ import './style/style.css'
 export default {
   components: {
     MainHeader,
-    popupInfo,
+    PopupInfo,
     WeatherPopup,
     MobilePopup,
     Range,
@@ -222,7 +224,8 @@ export default {
           flagUp = true
         }, 1)
       } else {
-        this.$refs.upButton.style.opacity = '0'
+        const btn = this.$refs.upButton
+        if (btn) btn.style.opacity = '0'
         setTimeout(() => {
           this.$refs.upButton.style.display = 'none'
           flagUp = true
