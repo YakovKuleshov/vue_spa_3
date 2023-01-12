@@ -1,26 +1,16 @@
 <template>
   <div id="infinite">
-    <div class="wrapper" ref="wrap">
+    <div class="wrapper">
       <div
         class="container"
         :style="{
           transform: `translateX(${left}%)`,
           transition: `${transition}s`
         }"
-        ref="container"
         @transitionend="resetLeft"
       >
-        <div
-          class="slide__container"
-          v-for="(item, index) in wallpapers"
-          :key="index"
-          :style="{ width: `${100 / toShow}%` }"
-          ref="items"
-        >
-          <div
-            class="slide__item"
-            :style="{ backgroundImage: `url(${imgUrl(item)})` }"
-          ></div>
+        <div class="slide__container" v-for="(item, index) in wallpapers" :key="index" :style="{ width: `${100 / toShow}%` }">
+          <lazy-image class="slide__item" :path="imgUrl(item)" />
         </div>
       </div>
       <div class="dots">
@@ -45,30 +35,15 @@
     />
     <div class="slide__count">Показывать по {{ toShow }}</div>
     <div class="switcher">
-      <div
-        class="sw__switcher"
-        :class="{ switcher__active: autoplay }"
-        @click="autoplay = !autoplay"
-      ></div>
+      <div class="sw__switcher" :class="{ switcher__active: autoplay }" @click="autoplay = !autoplay"></div>
       <div class="sw__text" :class="{ sw__text__active: autoplay }">Авто</div>
     </div>
     <template v-if="autoplay">
-      <div
-        class="progress__change"
-        :style="{ width: `${progressWidth}%` }"
-      ></div>
+      <div class="progress__change" :style="{ width: `${progressWidth}%` }"></div>
       <div class="remaining">{{ Math.round(progressWidth / step) }}</div>
     </template>
-    <div
-      class="buttons next"
-      @click="toNextSlide"
-      @mouseenter="autoplay = false"
-    ></div>
-    <div
-      class="buttons prev"
-      @click="toPrevSlide"
-      @mouseenter="autoplay = false"
-    ></div>
+    <div class="buttons next" @click="toNextSlide" @mouseenter="autoplay = false"></div>
+    <div class="buttons prev" @click="toPrevSlide" @mouseenter="autoplay = false"></div>
   </div>
 </template>
 
@@ -273,7 +248,12 @@ input::placeholder {
 </style>
 
 <script>
+import LazyImage from '@/elements/lazy-image/LazyImage.vue'
+
 export default {
+  components: {
+    LazyImage
+  },
   data() {
     return {
       left: -100,
@@ -281,7 +261,7 @@ export default {
       transition: 0,
       flag: true,
       progressWidth: 0,
-      toShow: '',
+      toShow: 3,
       autoplay: false,
       step: 25,
       dots: [],
@@ -341,20 +321,7 @@ export default {
         {
           image: 'mclaren'
         }
-      ],
-      updateSlider() {
-        this.wallpapers = this.clone.slice(0)
-        this.dots = this.wallpapers.map((el, k) => (100 / this.toShow) * k)
-
-        let first = this.wallpapers.slice(0, this.toShow)
-        this.wallpapers.push(...first)
-
-        let last = this.wallpapers.slice(
-          this.wallpapers.length - this.toShow - this.toShow,
-          this.wallpapers.length - this.toShow
-        )
-        this.wallpapers.unshift(...last)
-      }
+      ]
     }
   },
   watch: {
@@ -397,8 +364,6 @@ export default {
       this.left = (-100 / this.toShow) * this.current
     },
     toNextSlide() {
-      let items = this.$refs.items
-      let wrapp = this.$refs.wrap
       if (!this.flag) return false
       this.flag = false
       this.current++
@@ -420,11 +385,7 @@ export default {
       this.left += 100 / this.toShow
     },
     resetLeft() {
-      let items = this.$refs.items
-      if (
-        this.left <
-        -(((this.dots.length - 1 + this.toShow) / this.toShow) * 100)
-      ) {
+      if (this.left < -(((this.dots.length - 1 + this.toShow) / this.toShow) * 100)) {
         this.transition = 0
         this.left = -100
       }
@@ -437,12 +398,21 @@ export default {
     },
     imgUrl(item) {
       return require(`@/assets/img/${item.image}.jpg`)
+    },
+    updateSlider() {
+      this.wallpapers = this.clone.slice(0)
+      this.dots = this.wallpapers.map((el, k) => (100 / this.toShow) * k)
+
+      let first = this.wallpapers.slice(0, this.toShow)
+      this.wallpapers.push(...first)
+
+      let last = this.wallpapers.slice(this.wallpapers.length - this.toShow - this.toShow, this.wallpapers.length - this.toShow)
+      this.wallpapers.unshift(...last)
     }
   },
-  mounted() {
+  created() {
     this.clone = this.wallpapers.slice(0)
-
-    this.toShow = 3
+    this.updateSlider()
   }
 }
 </script>

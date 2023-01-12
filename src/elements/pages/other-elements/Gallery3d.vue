@@ -12,7 +12,8 @@
         :key="item.id"
       >
         <lazy-image :path="getImage(item)" />
-        <div class="image image__clone" :style="{ background: `url(${getImage(item)})`, backgroundSize: 'cover' }"></div>
+        <!-- <div class="image image__clone" :style="{ background: `url(${getImage(item)})`, backgroundSize: 'cover' }"></div> -->
+        <lazy-image class="image__clone" :path="getImage(item)" />
       </div>
     </div>
   </div>

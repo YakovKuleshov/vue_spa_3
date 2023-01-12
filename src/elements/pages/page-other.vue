@@ -89,13 +89,6 @@
 .other__content:deep(.section:last-of-type) {
   padding-bottom: 0;
 }
-
-.other__content:deep(.section:nth-child(4)) {
-  max-width: 1400px;
-  margin: 0 auto 200px;
-  padding: 0 50px;
-  box-sizing: border-box;
-}
 </style>
 
 <script>
@@ -139,13 +132,14 @@ export default {
       pathList: [
         'pages/other-elements/Gallery3d',
         'pages/other-elements/AnimatedShapes',
-        'slider/InfiniteSlider',
+        // 'slider/InfiniteSlider',
+        'slider/SwiperVue',
         'header/Header',
-        'tab-menu/TabMenu',
+        // 'tab-menu/TabMenu',
         'pages/other-elements/FolderList',
         'pages/other-elements/DragDrop',
-        'pages/other-elements/Volume',
-        'pages/other-elements/Сalendar'
+        'pages/other-elements/Volume'
+        // 'pages/other-elements/Сalendar'
       ],
       selectedName: {
         name: ''
@@ -187,7 +181,7 @@ export default {
       const container = this.$refs.container
       const instance = require(`@/elements/${path}`).default
 
-      if (this.counter === 5) {
+      if (this.counter === 4) {
         instance.props = {
           list: {
             default: this.fixedList

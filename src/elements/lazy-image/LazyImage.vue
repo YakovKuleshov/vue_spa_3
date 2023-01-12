@@ -2,6 +2,7 @@
   <div class="lazy-image">
     <img class="lazy-image_image" :class="{ 'lazy-image_loaded': show }" :src="path" loading="lazy" @load="isLoaded" />
     <Skeleton v-if="!show" />
+    <div v-if="name" class="lazy-image__title">{{ name }}</div>
   </div>
 </template>
 
@@ -14,6 +15,10 @@ export default {
   },
   props: {
     path: {
+      type: String,
+      default: ''
+    },
+    name: {
       type: String,
       default: ''
     }
@@ -52,5 +57,18 @@ export default {
 
 .lazy-image_loaded {
   opacity: 1;
+  z-index: 1;
+}
+
+.lazy-image__title {
+  position: absolute;
+  bottom: 0;
+  z-index: 1;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 10px;
+  color: #ffc97f;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+  letter-spacing: 0.5px;
 }
 </style>
