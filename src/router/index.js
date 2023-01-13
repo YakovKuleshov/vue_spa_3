@@ -61,28 +61,29 @@ const routes = [
   {
     path: '/information',
     name: 'information',
-    component: () => import('@/elements/pages/Pagination'),
+    component: () => import('@/elements/pages/Information'),
     meta: {
       title: 'Информация',
       keepAlive: true
     }
     // beforeEnter: (to, from, next) => {
-    //    next('/pagination?page=1')
+    //    next('/Information?page=1')
     // },
     // children: [
     //    {
-    //       path: '/pagination/info',
+    //       path: '/Information/info',
     //       component: InfoPage
     //    }
     // ]
   },
   {
     path: '/info',
+    name: 'info',
     props: true,
     component: () => import('@/elements/pages/info-page'),
     meta: {
       title: 'Информация',
-      keepAlive: true
+      keepAlive: false
     }
   },
   {

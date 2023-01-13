@@ -1,6 +1,13 @@
 <template>
   <div class="lazy-image">
-    <img class="lazy-image_image" :class="{ 'lazy-image_loaded': show }" :src="path" loading="lazy" @load="isLoaded" />
+    <img
+      class="lazy-image_image"
+      :class="{ 'lazy-image_loaded': show }"
+      :src="path"
+      loading="lazy"
+      @load="isLoaded"
+      @error="loadError"
+    />
     <Skeleton v-if="!show" />
     <div v-if="name" class="lazy-image__title">{{ name }}</div>
   </div>
@@ -31,6 +38,9 @@ export default {
   methods: {
     isLoaded() {
       this.show = true
+    },
+    loadError() {
+      this.$emit('error')
     }
   }
 }
