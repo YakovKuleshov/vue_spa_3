@@ -146,6 +146,11 @@ export default {
 </script>
 
 <style scoped>
+.swiper-vue {
+  max-width: 1920px;
+  margin: 0 auto;
+}
+
 .coverflow-example {
   height: 600px;
   position: relative;
