@@ -110,6 +110,8 @@
   z-index: 1;
   max-height: 250px;
   overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #ccc #fff;
 }
 
 .dropdown::-webkit-scrollbar {

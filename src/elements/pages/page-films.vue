@@ -4,22 +4,36 @@
     <div class="wrapper">
       <div class="container" ref="filmsContainer">
         <template v-for="(item, index) in list" :key="index">
-          <div class="list__item" @click="showInfo(item)">
+          <div class="list__item" @click="showInfo(item.element.alias)">
             <div class="item__image">
               <lazy-image :path="getImageUrl(item.element.basicCovers.items)" />
             </div>
             <div class="text__container">
               <div class="title__text">{{ item.element.name }}</div>
               <div class="public__date">{{ item.Year }}</div>
-              <!-- <div class="rating__wrapper">
-								<div class="year">{{ item.element.worldReleaseDate ? new Date(item.element.worldReleaseDate).toLocaleString([], {year: 'numeric'}) : '' }}</div>
-								<div class="rate__wrapper">
-									<div class="rating">
-										<div class="colored__rating"  :style="{ backgroundImage: 'url(src/img/' + getRateColor(item.element.kinopoiskRating) + ')', width: getRateWidth(item.element.kinopoiskRating) + '%' }"></div>
-									</div>
-									<div class="value">{{ getRate(item.element.kinopoiskRating) }}</div>
-								</div>
-							</div> -->
+              <div class="rating__wrapper">
+                <div class="year">
+                  {{
+                    item.element.worldReleaseDate
+                      ? `${new Date(item.element.worldReleaseDate).toLocaleDateString('ru', {
+                          year: 'numeric'
+                        })} г.`
+                      : ''
+                  }}
+                </div>
+                <div class="rate__wrapper">
+                  <div class="rating">
+                    <div
+                      class="colored__rating"
+                      :style="{
+                        backgroundImage: `url(${getRateColor(item.element.averageRating)})`,
+                        width: `${getRateWidth(item.element.averageRating)}%`
+                      }"
+                    ></div>
+                  </div>
+                  <div class="value">{{ getRate(item.element.averageRating) }}</div>
+                </div>
+              </div>
             </div>
           </div>
         </template>
@@ -118,44 +132,47 @@
   text-shadow: -2px 3px 5px rgba(0, 0, 0, 0.4);
 }
 
-/* .rating__wrapper {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-	}
+.rating__wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 
-	.year {
-		font-size: 15px;
-		color: #9c9c9c;
-	}
+.year {
+  font-size: 15px;
+  color: #9c9c9c;
+}
 
-	.rate__wrapper {
-		display: flex;
-		align-items: center;
-	}
+.rate__wrapper {
+  display: flex;
+}
 
-	.rating {
-		position: relative;
-		width: 70px;
-		height: 13px;
-		background: url('../../img/grey_star.svg') repeat-x center;
-		background-size: contain;
-	}
+.rating {
+  position: relative;
+  width: 85px;
+  height: 16px;
+  background: url('@/assets/img/grey_star.svg') repeat-x center;
+  background-size: contain;
+}
 
-	.colored__rating {
-		position: absolute;
-		left: 0;
-		top: 0;
-		height: 100%;
-		background-size: contain;
-	}
+.colored__rating {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  background-size: contain;
+}
 
-	.value {
-		color: #333;
-		font-weight: bold;
-		margin-left: 10px;
-		font-size: 16px;
-	} */
+.value {
+  color: #333;
+  font-weight: bold;
+  margin-left: 8px;
+  font-size: 16px;
+}
+
+.main .preloader {
+  z-index: 1;
+}
 
 .active {
   color: #07f;
@@ -178,27 +195,11 @@ export default {
       preloader: false,
       list: [],
       page: 0
-      // getRate(rate) {
-      // 	return rate ? rate.toFixed(1) : ''
-      // },
-      // getRateColor(rate) {
-      // 	if(!rate) return
-      // 	if(rate <= 4) {
-      // 		return 'red_star.svg'
-      // 	}else if(rate > 4 && rate <= 7) {
-      // 		return 'yellow_star.svg'
-      // 	}else {
-      // 		return 'green_star.svg'
-      // 	}
-      // },
-      // getRateWidth(rate) {
-      // 	return 100 / 10 * rate
-      // },
     }
   },
   methods: {
-    showInfo(item) {
-      this.getItemInfo(item)
+    showInfo(alias) {
+      this.$emit('onFilmClick', alias)
     },
     scrollContent() {
       if (!this.flag) return false
@@ -208,64 +209,53 @@ export default {
         this.flag = false
       }
     },
-    getItemInfo(item) {
-      this.preloader = true
-      fetch(
-        `https://ctx.playfamily.ru/screenapi/v1/noauth/moviecard/web/1?elementAlias=${item.element.alias}&elementType=MOVIE`,
-        {}
-      )
-        .then((response) => {
-          return response.json()
-        })
-        .then((res) => {
-          const filmData = {
-            url: res.element.basicCovers.items[0].url,
-            description: res.element.description,
-            trailer: res.element.trailers.items[1].url,
-            rating: res.element.kinopoiskRating,
-            filmName: res.element.alias,
-            type: res.element.type,
-            year: new Date(res.element.worldReleaseDate).toLocaleString({}, { year: 'numeric' })
-          }
-          this.$emit('onFilmClick', filmData)
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-        .finally((v) => {
-          this.preloader = false
-        })
+    getRate(rate) {
+      return rate ? rate.toFixed(1) : ''
     },
-    load(page, first_load) {
-      this.preloader = true
-      fetch(
-        'https://ctx.playfamily.ru/screenapi/v1/noauth/collection/web/1?elementAlias=novelty_web&elementType=COLLECTION&limit=8&offset=' +
-          page +
-          '&withInnerCollections=false'
-      )
-        .then((response) => response.json())
-        .then((res) => {
-          if (this.hasItems(res.element.collectionItems.items)) {
-            if (first_load) {
-              setTimeout(() => {
-                if (this.$refs.filmsContainer.getBoundingClientRect().bottom < window.innerHeight) {
-                  this.page += 20
-                  this.load(this.page, first_load)
-                }
-              })
-            }
+    getRateColor(rate) {
+      if (!rate) return
 
-            if (this.page == 0) {
-              this.list = res.element.collectionItems.items
-            } else {
-              this.list = this.list.concat(res.element.collectionItems.items)
-            }
-            this.flag = true
+      if (rate < 5) {
+        return require('@/assets/img/red_star.svg')
+      } else if (rate >= 5 && rate < 7) {
+        return require('@/assets/img/yellow_star.svg')
+      }
+
+      return require('@/assets/img/green_star.svg')
+    },
+    getRateWidth(rate) {
+      return (100 / 10) * rate
+    },
+    async load(page, first_load) {
+      this.preloader = true
+
+      try {
+        const url = `https://ctx.playfamily.ru/screenapi/v1/noauth/collection/web/1?elementAlias=novelty_web&elementType=COLLECTION&limit=8&offset=${page}&withInnerCollections=false`
+        const response = await fetch(url)
+        const res = await response.json()
+
+        if (this.hasItems(res.element.collectionItems.items)) {
+          if (first_load) {
+            setTimeout(() => {
+              if (this.$refs.filmsContainer.getBoundingClientRect().bottom < window.innerHeight) {
+                this.page += 20
+                this.load(this.page, first_load)
+              }
+            })
           }
 
-          this.preloader = false
-        })
-        .catch((err) => console.log(err))
+          if (this.page == 0) {
+            this.list = res.element.collectionItems.items
+          } else {
+            this.list = this.list.concat(res.element.collectionItems.items)
+          }
+          this.flag = true
+        }
+      } catch (err) {
+        console.log(err)
+      } finally {
+        this.preloader = false
+      }
     },
     hasItems(arr) {
       return arr && arr.length ? true : false

@@ -17,13 +17,15 @@
         </div>
         <div class="actors">
           Режиссёр:
-          <span v-for="(item, index) in directorsList" :key="index"
-            >{{ item.element.name }}{{ getComma(directorsList, index) }}</span
+          <span v-for="(item, index) in filmData.directorsList" :key="index"
+            >{{ item.element.name }}{{ getComma(filmData.directorsList, index) }}</span
           >
         </div>
         <div class="actors">
           В ролях:
-          <span v-for="(item, index) in actorsList" :key="index">{{ item.element.name }}{{ getComma(actorsList, index) }}</span>
+          <span v-for="(item, index) in filmData.actorsList" :key="index"
+            >{{ item.element.name }}{{ getComma(filmData.actorsList, index) }}</span
+          >
         </div>
         <div class="description">
           <p>{{ filmData.description }}</p>
@@ -31,9 +33,9 @@
       </div>
       <div class="rating__wrapper">
         <div class="rating">
-          <div class="rating__active" :class="getRateColor" :style="{ width: getRateWidth + '%' }"></div>
+          <div class="rating__active" :class="rateColor" :style="{ width: rateWidth + '%' }"></div>
         </div>
-        <div class="rating__value">{{ getRate }}<span class="rate__from">Кино Поиск</span></div>
+        <div class="rating__value">{{ rateValue }}<span class="rate__from">Кино Поиск</span></div>
       </div>
     </div>
   </div>
@@ -140,9 +142,20 @@ video {
 }
 
 .text__container {
-  padding-top: 20px;
-  padding-bottom: 20px;
+  padding: 20px 10px 0 0;
   overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #ccc #fff;
+}
+
+.text__container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.text__container::-webkit-scrollbar-thumb {
+  border: 1px solid #fff;
+  background: #ccc;
+  border-radius: 20px;
 }
 
 .actors {
@@ -260,7 +273,12 @@ video {
 import XLoader from '@/elements/pages/shop/productPage/XLoader.vue'
 
 export default {
-  props: ['filmData'],
+  props: {
+    filmAlias: {
+      type: String,
+      default: ''
+    }
+  },
   components: {
     XLoader
   },
@@ -268,27 +286,23 @@ export default {
     return {
       trailer: false,
       loaded: false,
-      actorsList: [],
-      directorsList: [],
-      getComma(actors, index) {
-        return index == actors.length - 1 ? '' : ','
-      }
+      filmData: {}
     }
   },
   computed: {
-    getRateWidth() {
+    rateWidth() {
       return (100 / 10) * this.filmData.rating
     },
-    getRateColor() {
+    rateColor() {
       if (this.filmData.rating < 5) {
         return 'red'
       } else if (this.filmData.rating >= 5 && this.filmData.rating < 7) {
         return 'yellow'
-      } else {
-        return 'green'
       }
+
+      return 'green'
     },
-    getRate() {
+    rateValue() {
       return this.filmData.rating ? this.filmData.rating.toFixed(1) : ''
     }
   },
@@ -308,24 +322,47 @@ export default {
         }
       }
     },
+    getComma(actors, index) {
+      return index == actors.length - 1 ? '' : ','
+    },
     onLoad() {
       this.loaded = true
+    },
+    async getItemInfo() {
+      try {
+        const url = `https://ctx.playfamily.ru/screenapi/v1/noauth/moviecard/web/1?elementAlias=${this.filmAlias}&elementType=MOVIE`
+        const response = await fetch(url)
+        const res = await response.json()
+
+        this.filmData = {
+          url: res.element.basicCovers.items[0].url,
+          description: res.element.description,
+          trailer: res.element.trailers.items[1].url,
+          rating: res.element.averageRating,
+          filmName: res.element.alias,
+          type: res.element.type,
+          year: new Date(res.element.worldReleaseDate).toLocaleString({}, { year: 'numeric' }),
+          actorsList: res.element.actors.items,
+          directorsList: res.element.directors.items
+        }
+      } catch (err) {
+        console.log(err)
+      }
     }
+    // async fetchFilmData() {
+    //   const url = `https://ctx.playfamily.ru/screenapi/v1/noauth/moviecard/web/1?elementAlias=${this.filmData.filmName}&elementType=${this.filmData.type}`
+
+    //   const response = await fetch(url)
+    //   const res = await response.json()
+
+    //   this.actorsList = res.element.actors.items
+    //   this.directorsList = res.element.directors.items
+    // }
   },
   mounted() {
     document.body.style.overflow = 'hidden'
 
-    fetch(
-      'https://ctx.playfamily.ru/screenapi/v1/noauth/moviecard/web/1?elementAlias=' +
-        this.filmData.filmName +
-        '&elementType=' +
-        this.filmData.type
-    )
-      .then((response) => response.json())
-      .then((res) => {
-        this.actorsList = res.element.actors.items
-        this.directorsList = res.element.directors.items
-      })
+    this.getItemInfo()
   },
   beforeUnmount() {
     document.body.removeAttribute('style')

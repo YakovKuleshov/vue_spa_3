@@ -25,7 +25,7 @@
       </keep-alive>
     </transition>
     <transition name="fade">
-      <popup-info v-if="filmData" :filmData="filmData" @clearData="clearData"></popup-info>
+      <films-popup v-if="filmAlias" :film-alias="filmAlias" @clearData="clearData" />
     </transition>
     <transition name="fade">
       <image-popup v-if="galleryImgUrl" :url="galleryImgUrl" @clearImgUrl="clearImgUrl" />
@@ -58,7 +58,7 @@
 import Range from './elements/range/Range'
 import Colorpicker from './elements/colorpicker/Colorpicker'
 import resizeBlock from './elements/resize-block/Resize-block'
-import PopupInfo from './PopupInfo.vue'
+import FilmsPopup from './FilmsPopup.vue'
 import MobilePopup from './MobilePopup.vue'
 import WeatherPopup from './WeatherPopup'
 import Clock from './elements/clock/Clock'
@@ -70,7 +70,7 @@ import './style/style.css'
 export default {
   components: {
     MainHeader,
-    PopupInfo,
+    FilmsPopup,
     WeatherPopup,
     MobilePopup,
     Range,
@@ -89,7 +89,7 @@ export default {
       blockColor: '',
       hexColor: '',
       rangeValue: '',
-      filmData: '',
+      filmAlias: '',
       bgButtonTop: window.innerHeight - 300
     }
   },
@@ -114,8 +114,8 @@ export default {
       this.rangeValue = value
     },
 
-    filmClick(film_data) {
-      this.filmData = film_data
+    filmClick(alias) {
+      this.filmAlias = alias
     },
 
     imageClick(url) {
@@ -123,7 +123,7 @@ export default {
     },
 
     clearData() {
-      this.filmData = ''
+      this.filmAlias = ''
     },
 
     clearImgUrl() {

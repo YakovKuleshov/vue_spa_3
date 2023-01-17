@@ -184,6 +184,7 @@ section {
 	color: #fff;
 	letter-spacing: 1px;
 	cursor: pointer;
+	z-index: 1;
 }
 
 @media screen and (max-width: 992px) {
