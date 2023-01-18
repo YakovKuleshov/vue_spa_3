@@ -5,7 +5,7 @@
       <h2 class="list__title">Страница {{ $route.query.page }}</h2>
       <div v-for="(item, index) in limitedList" class="list__item__container" :key="index" @click="toInfoPage(item)">
         <div class="list__item">
-          <lasy-image class="list__item__img" :path="item.urlToImage" @error="loadError(item)" />
+          <lasy-image class="list__item__img" :path="item.urlToImage" @error="loadError(item)" :key="$route.query.page" />
           <div class="list__item__text">{{ formatText(item.description) }}</div>
         </div>
       </div>

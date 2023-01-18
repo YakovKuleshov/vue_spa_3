@@ -1,13 +1,6 @@
 <template>
   <div class="lazy-image">
-    <img
-      class="lazy-image_image"
-      :class="{ 'lazy-image_loaded': show }"
-      :src="path"
-      loading="lazy"
-      @load="isLoaded"
-      @error="loadError"
-    />
+    <img class="lazy-image_image" :class="{ 'lazy-image_loaded': show }" loading="lazy" @load="isLoaded" @error="loadError" />
     <Skeleton v-if="!show" />
     <div v-if="name" class="lazy-image__title">{{ name }}</div>
   </div>
@@ -42,6 +35,22 @@ export default {
     loadError() {
       this.$emit('error')
     }
+  },
+  mounted() {
+    const img = this.$el.querySelector('.lazy-image_image')
+    let observer = new IntersectionObserver(
+      (entries, observer) => {
+        entries.forEach((en) => {
+          if (en.isIntersecting) {
+            img.setAttribute('src', this.path)
+            observer.unobserve(en.target)
+          }
+        })
+      },
+      { threshold: 0 }
+    )
+
+    observer.observe(this.$el)
   }
 }
 </script>
