@@ -140,7 +140,7 @@ export default {
   },
   data() {
     return {
-      buttonsLenght: '',
+      buttonsLength: '',
       currentPage: 1,
       limit: 4
     }
@@ -160,7 +160,7 @@ export default {
 
     getPageNumber() {
       let val = this.$route.query.page && this.$route.query.page.replace(/[^\d]/g, '')
-      return +val > this.buttonsLenght ? '' : val
+      return +val > this.buttonsLength ? '' : val
     },
     limitedList() {
       return this.localList.slice(
@@ -191,9 +191,9 @@ export default {
     }
   },
   activated() {
-    this.buttonsLenght = Math.ceil(this.localList.length / this.limit)
+    this.buttonsLength = Math.ceil(this.localList.length / this.limit)
     const buttonsArr = []
-    for (let i = 1; i < this.buttonsLenght; i++) {
+    for (let i = 1; i < this.buttonsLength; i++) {
       buttonsArr.push(i)
     }
     let rex = /page=\d{1,2}/g.test(this.$route.fullPath)
