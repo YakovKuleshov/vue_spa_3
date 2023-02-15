@@ -93,7 +93,7 @@
 
 <script>
 import Slider from '../slider/Slider'
-import StarsRating from './other-elements/starsRating'
+// import StarsRating from './other-elements/starsRating'
 import saveScroll from '@/mixins/saveScroll'
 // import DateMenu from "./other-elements/DateMenu.vue";
 // import TestPag from "./other-elements/TestPag.vue";
@@ -113,8 +113,8 @@ import { createApp } from 'vue'
 
 export default {
   components: {
-    Slider,
-    StarsRating
+    Slider
+    // StarsRating,
     // DateMenu,
     // TestPag,
     // RangeDataPicker
