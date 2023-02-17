@@ -4,7 +4,8 @@
       <div class="logo">
         <div class="logo__icon"></div>
       </div>
-      <weather-now @click="$emit('showDetail')" xxx="1" />
+      <weather-now @click="$emit('showDetail')" />
+      <div class="qr-code" title="Поделиться" @click="$emit('showQR')" />
     </div>
     <Navigation />
     <gamburger-menu @click="$emit('showNavModal')" />
@@ -62,7 +63,17 @@ export default {
   margin-left: auto;
 }
 
-@media (max-width: 1500px) {
+.qr-code {
+  width: 30px;
+  height: 30px;
+  background: url('@/assets/img/qr.svg') no-repeat center;
+  background-size: cover;
+  cursor: pointer;
+  margin-left: 10px;
+  margin-right: 5px;
+}
+
+@media (max-width: 1600px) {
   .main-header__row {
     position: static;
   }
@@ -72,7 +83,7 @@ export default {
   }
 }
 
-@media (max-width: 1220px) {
+@media (max-width: 1245px) {
   .main-header:deep(.menu) {
     display: none;
   }

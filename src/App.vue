@@ -1,7 +1,12 @@
 <template>
   <div id="main">
     <keep-alive>
-      <main-header v-if="validPath" @showDetail="showDetailWeather = true" @showNavModal="showNav = true" />
+      <main-header
+        v-if="validPath"
+        @showDetail="showDetailWeather = true"
+        @showNavModal="showNav = true"
+        @showQR="showQRModal = true"
+      />
     </keep-alive>
     <div class="wallpaper" :style="{ background: `url(${mainBgUrl}) no-repeat center` }" />
     <section>
@@ -33,6 +38,9 @@
     <transition name="fade">
       <mobile-popup v-if="showNav" @close="showNav = false" />
     </transition>
+    <transition name="fade">
+      <qr-popup v-if="showQRModal" @close="showQRModal = false" />
+    </transition>
     <div v-if="!$isMobile && isDev" class="button color__button" @click="colorpickerToggle">Цвет</div>
     <div class="color__picker" :class="{ color__picker__active: colorpicker }" @click="stopProp">
       <Colorpicker @onRgbaColor="setRgba" @onInputColor="setHexColor" />
@@ -61,6 +69,7 @@ import resizeBlock from './elements/resize-block/Resize-block'
 import FilmsPopup from './FilmsPopup.vue'
 import MobilePopup from './MobilePopup.vue'
 import WeatherPopup from './WeatherPopup'
+import QrPopup from './QrPopup.vue'
 import Clock from './elements/clock/Clock'
 import ImagePopup from './ImagePopup'
 import MainHeader from './elements/main-header/MainHeader'
@@ -72,6 +81,7 @@ export default {
     MainHeader,
     FilmsPopup,
     WeatherPopup,
+    QrPopup,
     MobilePopup,
     Range,
     Colorpicker,
@@ -84,6 +94,7 @@ export default {
       showNav: false,
       showDetailWeather: false,
       showRegistration: false,
+      showQRModal: false,
       galleryImgUrl: '',
       colorpicker: false,
       blockColor: '',
