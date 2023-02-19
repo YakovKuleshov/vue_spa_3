@@ -124,7 +124,7 @@
         </router-view>
       </template>
       <div v-else class="product-page__plug">
-        <div class="product-page__plug-icon">(:</div>
+        <div class="product-page__plug-icon">:(</div>
         <div class="product-page__plug-text">Похоже, что вы изменили id в адресе страницы</div>
         <button class="product-page__button" @click="toPrevPage">На главную</button>
       </div>
