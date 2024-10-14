@@ -91,8 +91,8 @@
     </div>
 
     <div ref="tableContentRef" :class="['forms-table__tbody relative w-full flex overflow-x-auto', !tableData.length && 'min-h-[117px]']">
-      <div class="shrink-0" :style="{ width: `${leftWidth}px` }" />
-      <div class="grow" :style="{ width: `${cellWidth * limit + 1}px` }">
+      <div v-if="tableData.length" class="shrink-0" :style="{ width: `${leftWidth}px` }" />
+      <div class="grow" :style="{ width: tableData.length ? `${cellWidth * limit + 1}px` : 'auto' }">
         <div
           v-for="item in tableData"
           class="forms-table__row flex border-b"
@@ -102,7 +102,7 @@
           <slot name="table" :row="item" :list-to-render="listToRender" />
         </div>
       </div>
-      <div class="shrink-0" :style="{ width: `${rightWidth}px` }" />
+      <div v-if="tableData.length" class="shrink-0" :style="{ width: `${rightWidth}px` }" />
 
       <div v-if="!loading && !tableData.length"
         class="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] text-[#4b7dbe] text-[18px]"
