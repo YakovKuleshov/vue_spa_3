@@ -42,7 +42,7 @@
     tableContentRef.value.scrollLeft = this.scrollLeft
     scrollPos.value = this.scrollLeft
 
-    startIndex.value = Math.min(props.vissibleColumns.length - limit - 1, Math.floor(scrollPos.value / cellWidth))
+    startIndex.value = Math.min(props.vissibleColumns.length - limit, Math.floor(scrollPos.value / cellWidth))
 
     if (startIndex.value < 0) startIndex.value = 0
   }
@@ -60,11 +60,11 @@
       return 0
     }
 
-    return cellWidth * (props.vissibleColumns.length - (startIndex.value + limit + 1))
+    return cellWidth * (props.vissibleColumns.length - (startIndex.value + limit))
   })
 
   const listToRender = computed(() => {
-    return props.vissibleColumns.slice(startIndex.value, startIndex.value + limit + 1)
+    return props.vissibleColumns.slice(startIndex.value, startIndex.value + limit)
   })
 
   onMounted(() => {
@@ -81,22 +81,22 @@
 </script>
 
 <template>
-  <div :class="['el-table forms-table rounded-[6px] overflow-hidden', size && `el-table--${size}`]" v-loading="loading">
-    <div ref="tableHeaderRef" class="forms-table__header flex overflow-x-auto shrink-0">
+  <div :class="['el-table rounded-[6px]', size && `el-table--${size}`]" v-loading="loading">
+    <div ref="tableHeaderRef" class="forms-table__header flex overflow-x-auto">
       <div class="shrink-0" :style="{ width: `${leftWidth}px` }" />
-      <div class="flex grow" :style="{ width: `${cellWidth * limit + 1}px` }">
+
+      <div class="flex grow" :style="{ width: `${cellWidth * limit}px` }">
         <slot name="table" :header="true" :list-to-render="listToRender" />
       </div>
       <div class="shrink-0" :style="{ width: `${rightWidth}px` }" />
     </div>
 
-    <div ref="tableContentRef" :class="['forms-table__tbody relative w-full flex overflow-x-auto', !tableData.length && 'min-h-[117px]']">
+    <div ref="tableContentRef" :class="['forms-table__tbody relative flex overflow-x-auto', !tableData.length && 'min-h-[117px]']">
       <div v-if="tableData.length" class="shrink-0" :style="{ width: `${leftWidth}px` }" />
-      <div class="grow" :style="{ width: tableData.length ? `${cellWidth * limit + 1}px` : 'auto' }">
+      <div class="grow" :style="{ width: `${cellWidth * limit}px` }">
         <div
           v-for="item in tableData"
-          class="forms-table__row flex border-b"
-          :style="{ maxWidth: `${cellWidth * vissibleColumns.length}px` }"
+          class="forms-table__row flex grow border-b"
           :key="item.id"
         >
           <slot name="table" :row="item" :list-to-render="listToRender" />
